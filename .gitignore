@@ -2,8 +2,7 @@
 capybara-*.html
 .rspec
 /db/*.sqlite3
-/db/*.sqlite3-journal
-/db/*.sqlite3-[0-9]*
+/db/*.sqlite3-*
 /public/system
 /coverage/
 /spec/tmp
@@ -16,6 +15,11 @@ pickle-email-*.html
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
@@ -66,4 +70,9 @@ yarn-debug.log*
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+
+/public/assets
 /public/uploads
