@@ -10,6 +10,6 @@ class ApplicationService
       return { content: content, status: status, serializer: serializer }
     end
 
-    { content: validator.errors, status: :unprocessable_entity }
+    { content: validator.errors.to_h, status: :unprocessable_entity }
   end
 end
