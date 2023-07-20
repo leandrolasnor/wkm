@@ -32,6 +32,24 @@ RSpec.describe EmployeesController do
           expect(json_body).to eq(expected_json_body)
         end
       end
+
+      context 'on validation error' do
+        let(:expected_json_body) do
+          {
+            name: ["is missing"],
+            position: ["must be a string"]
+          }
+        end
+
+        before do
+          post(hire_employee_path, params: { position: 7 }, as: :json)
+        end
+
+        it "must be able to hire a employee" do
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json_body).to eq(expected_json_body)
+        end
+      end
     end
   end
 
@@ -64,6 +82,18 @@ RSpec.describe EmployeesController do
           expect(json_body).to eq(expected_json_body)
         end
       end
+
+      context 'on not_found' do
+        let(:params) { { id: 0, position: 'Chair Man' } }
+
+        before do
+          patch(promotion_employee_path, params: params, as: :json)
+        end
+
+        it "must be able to get http status as not_found" do
+          expect(response).to have_http_status(:not_found)
+        end
+      end
     end
   end
 
@@ -82,13 +112,25 @@ RSpec.describe EmployeesController do
         end
 
         before do
-          delete(fire_employee_path, params: params)
+          delete(fire_employee_path, params: params, as: :json)
         end
 
         it 'must be able to soft delete the employee' do
           expect(response).to be_successful
           expect(json_body).to eq(expected_json_body)
           expect(paranoia_employee).not_to be_nil
+        end
+      end
+
+      context 'on not_found' do
+        let(:params) { { id: 0, position: 'Chair Man' } }
+
+        before do
+          delete(fire_employee_path, params: params)
+        end
+
+        it "must be able to get http status as not_found" do
+          expect(response).to have_http_status(:not_found)
         end
       end
     end
