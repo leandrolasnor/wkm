@@ -6,6 +6,10 @@ ruby "3.2.2"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.6"
 
+gem 'dry-initializer'
+
+gem 'dry-validation'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
@@ -27,7 +31,9 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-gem 'fast_jsonapi'
+gem 'active_model_serializers'
+
+gem 'paranoia'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
@@ -56,7 +62,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
@@ -75,6 +80,13 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
+  gem 'factory_bot'
+  gem 'factory_bot_rails'
+  gem 'faker', github: 'faker-ruby/faker'
+  gem 'rspec-rails'
   gem "selenium-webdriver"
+  gem 'shoulda-matchers'
+  gem 'simplecov', require: false
+  gem 'timecop'
   gem "webdrivers"
 end
