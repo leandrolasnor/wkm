@@ -3,9 +3,9 @@
 class PromotionEmployeeSrvc < ApplicationService
   extend Dry::Initializer
 
-  param :employee
+  param :params
 
-  option :repository, default: -> { Promotion::Employee.new(employee) }
+  option :repository, default: -> { Promotion::Employee.new(params) }
   option :serializer, default: -> { EmployeeSerializer }
   Schema = Promotion::Employee::Schema.new
 
