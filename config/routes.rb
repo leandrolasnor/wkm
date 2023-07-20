@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  namespace :employees do
+  resource :employee, only: [] do
     post :hire
     patch :promotion
     delete :fire
