@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_19_223429) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_20_004159) do
   create_table "employees", force: :cascade do |t|
     t.string "name"
     t.string "position"
     t.date "hire_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_employees_on_deleted_at"
   end
 
   create_table "vacations", force: :cascade do |t|
@@ -25,6 +27,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_223429) do
     t.integer "employee_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_vacations_on_deleted_at"
     t.index ["employee_id"], name: "index_vacations_on_employee_id"
   end
 
