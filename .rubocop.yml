@@ -145,11 +145,7 @@ Style/HashSyntax:
     - db/schema.rb
 
 Style/StringLiterals:
-  Enabled: true
-  Exclude:
-    - db/seed.rb
-    - db/schema.rb
-    - db/migrate/**/*
+  Enabled: false
 
 Style/AccessorGrouping:
   EnforcedStyle: separated
