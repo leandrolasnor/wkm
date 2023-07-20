@@ -9,6 +9,10 @@ class EmployeesController < ApiController
     resolve(**PromotionEmployeeSrvc.call(promotion_params))
   end
 
+  def fire
+    resolve(**FireEmployeeSrvc.call(fire_params))
+  end
+
   private
 
   def params_employee
@@ -21,5 +25,9 @@ class EmployeesController < ApiController
 
   def promotion_params
     params_employee.permit(:id, :position)
+  end
+
+  def fire_params
+    params.permit(:id)
   end
 end
