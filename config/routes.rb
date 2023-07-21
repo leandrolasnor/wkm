@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     delete :fire
   end
 
+  resource :employees, only: [] do
+    get :list
+  end
+
   resource :vacation, only: [] do
     post :schedule
   end
