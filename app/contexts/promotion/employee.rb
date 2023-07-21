@@ -5,13 +5,11 @@ class Promotion::Employee
 
   param :params
 
-  option :id, default: -> { params[:id] }
+  option :employee_id, default: -> { params[:employee_id] }
   option :position, default: -> { params[:position] }
   option :model, default: -> { Employee }
 
   def advance
-    employee = model.find(id)
-    employee.update(position: position)
-    employee
+    model.update(employee_id, position: position)
   end
 end

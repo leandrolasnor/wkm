@@ -5,11 +5,11 @@ class Firing::Employee
 
   param :params
 
-  option :id, default: -> { params[:id] }
+  option :employee_id, default: -> { params[:employee_id] }
   option :model, default: -> { Employee }
 
   def fire
-    employee = model.find(id)
+    employee = model.find(employee_id)
     employee.destroy
     employee
   end
