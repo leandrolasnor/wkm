@@ -35,6 +35,8 @@ gem 'active_model_serializers'
 
 gem 'paranoia'
 
+gem 'kaminari'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
