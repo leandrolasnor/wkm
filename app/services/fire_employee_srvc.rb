@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class FireEmployeeSrvc < ApplicationService
-  extend Dry::Initializer
-
   param :params
 
   option :serializer, default: -> { EmployeeSerializer }

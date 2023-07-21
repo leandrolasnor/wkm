@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class PromotionEmployeeSrvc < ApplicationService
-  extend Dry::Initializer
-
   param :params
 
   option :repository, default: -> { Promotion::Employee.new(params) }
