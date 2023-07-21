@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class Firing::Employee::Schema < Dry::Schema::Params
-  define do
+class Firing::Employee::Contract < Dry::Validation::Contract
+  params do
     required(:id).filled(:integer)
   end
 end

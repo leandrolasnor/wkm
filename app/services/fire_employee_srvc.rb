@@ -5,7 +5,7 @@ class FireEmployeeSrvc < ApplicationService
 
   option :serializer, default: -> { EmployeeSerializer }
   option :repository, default: -> { Firing::Employee.new(params) }
-  Schema = Firing::Employee::Schema.new
+  Contract = Firing::Employee::Contract.new
 
   def call
     fired = repository.fire

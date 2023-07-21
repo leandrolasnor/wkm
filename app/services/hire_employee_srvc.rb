@@ -4,7 +4,7 @@ class HireEmployeeSrvc < ApplicationService
   param :employee
   option :serializer, default: -> { EmployeeSerializer }
   option :repository, default: -> { Hiring::Employee.new(employee) }
-  Schema = Hiring::Employee::Schema.new
+  Contract = Hiring::Employee::Contract.new
 
   def call
     hired = repository.hire

@@ -5,7 +5,7 @@ class ScheduleVacationSrvc < ApplicationService
 
   option :serializer, default: -> { VacationSerializer }
   option :repository, default: -> { Scheduling::Vacation.new(params) }
-  Schema = Scheduling::Vacation::Contract.new
+  Contract = Scheduling::Vacation::Contract.new
 
   def call
     scheduled = repository.schedule

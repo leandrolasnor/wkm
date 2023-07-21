@@ -5,7 +5,7 @@ class PromotionEmployeeSrvc < ApplicationService
 
   option :repository, default: -> { Promotion::Employee.new(params) }
   option :serializer, default: -> { EmployeeSerializer }
-  Schema = Promotion::Employee::Schema.new
+  Contract = Promotion::Employee::Contract.new
 
   def call
     advanced = repository.advance
