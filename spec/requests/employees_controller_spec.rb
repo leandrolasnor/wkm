@@ -148,4 +148,42 @@ RSpec.describe EmployeesController do
       end
     end
   end
+
+  describe 'GET /list' do
+    let(:employees) { create_list(:employee, 15) }
+
+    before do
+      employees
+    end
+
+    context 'on page 1' do
+      let(:params) { { page: 1, per_page: 10 } }
+
+      before do
+        get(list_employees_path, params: params, as: :json)
+      end
+
+      it 'must be able to get teen employees' do
+        expect(response).to be_successful
+        expect(json_body).to be_a(Array)
+        expect(json_body.size).to be(10)
+        expect(json_body.first).to include(:name, :position, :hire_date)
+      end
+    end
+
+    context 'on page 2' do
+      let(:params) { { page: 2, per_page: 10 } }
+
+      before do
+        get(list_employees_path, params: params, as: :json)
+      end
+
+      it 'must be able to get five employees' do
+        expect(response).to be_successful
+        expect(json_body).to be_a(Array)
+        expect(json_body.size).to be(5)
+        expect(json_body.first).to include(:name, :position, :hire_date)
+      end
+    end
+  end
 end
