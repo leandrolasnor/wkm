@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     delete :fire
   end
 
+  resource :vacation, only: [] do
+    post :schedule
+  end
+
   root to: 'api#health', via: :all
   match '*path' => 'api#not_found', via: :all
 end
