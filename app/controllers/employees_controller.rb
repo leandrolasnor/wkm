@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class EmployeesController < ApiController
+  def list
+    resolve(**ListEmployeeSrvc.call(list_params))
+  end
+
   def hire
     resolve(**HireEmployeeSrvc.call(hire_params))
   end
@@ -17,6 +21,10 @@ class EmployeesController < ApiController
 
   def params_employee
     params.fetch(:employee)
+  end
+
+  def list_params
+    params.permit(:page, :per_page)
   end
 
   def hire_params
