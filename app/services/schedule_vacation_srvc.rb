@@ -11,5 +11,7 @@ class ScheduleVacationSrvc < ApplicationService
     scheduled = repository.schedule
 
     [scheduled, :created, serializer]
+  rescue StandardError => error
+    [error.message, :unprocessable_entity, nil]
   end
 end
