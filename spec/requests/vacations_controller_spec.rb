@@ -117,5 +117,30 @@ RSpec.describe VacationsController do
         expect(json_body).to match(expected_json_body)
       end
     end
+
+    context 'when there is a prevent' do
+      context 'on MCMLXXVII::Abr15Art130N1535' do
+        let(:params) do
+          {
+            start_date: '2022-11-02',
+            end_date: '2022-12-02',
+            employee_id: employee.id
+          }
+        end
+
+        let(:expected_json_body) do
+          [{ employee_id: [I18n.t(:thirty_days_each_period_twelve_months)] }]
+        end
+
+        before do
+          post(schedule_vacation_path, params: params, as: :json)
+        end
+
+        it 'must be able to get a schedule item' do
+          expect(response).to be_unprocessable
+          expect(json_body).to eq(expected_json_body)
+        end
+      end
+    end
   end
 end
