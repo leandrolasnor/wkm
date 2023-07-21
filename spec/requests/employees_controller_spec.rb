@@ -56,7 +56,7 @@ RSpec.describe EmployeesController do
   describe "PATCH /promotion" do
     context "when promotion a employee" do
       context "on success" do
-        let(:params) { { id: employee.id, position: 'Chair Man' } }
+        let(:params) { { employee_id: employee.id, position: 'Chair Man' } }
         let(:employee) do
           create(
             :employee,
@@ -84,14 +84,21 @@ RSpec.describe EmployeesController do
       end
 
       context 'on not_found' do
-        let(:params) { { id: 0, position: 'Chair Man' } }
+        let(:params) { { employee_id: 0, position: 'Chair Man' } }
+
+        let(:expected_json_body) do
+          {
+            employee_id: ["must be a valid registration identifier"]
+          }
+        end
 
         before do
           patch(promotion_employee_path, params: params, as: :json)
         end
 
         it "must be able to get http status as not_found" do
-          expect(response).to have_http_status(:not_found)
+          expect(response).to be_unprocessable
+          expect(json_body).to eql(expected_json_body)
         end
       end
     end
@@ -100,7 +107,7 @@ RSpec.describe EmployeesController do
   describe "DELETE /fire" do
     context 'when fire a employee' do
       context 'on success' do
-        let(:params) { { id: employee.id } }
+        let(:params) { { employee_id: employee.id } }
         let(:paranoia_employee) { Employee.only_deleted.find(employee.id) }
         let(:employee) { create(:employee, :analyst, name: 'Arthur') }
         let(:expected_json_body) do
@@ -123,14 +130,20 @@ RSpec.describe EmployeesController do
       end
 
       context 'on not_found' do
-        let(:params) { { id: 0, position: 'Chair Man' } }
+        let(:params) { { employee_id: 0, position: 'Chair Man' } }
+        let(:expected_json_body) do
+          {
+            employee_id: ["must be a valid registration identifier"]
+          }
+        end
 
         before do
           delete(fire_employee_path, params: params)
         end
 
         it "must be able to get http status as not_found" do
-          expect(response).to have_http_status(:not_found)
+          expect(response).to be_unprocessable
+          expect(json_body).to eq(expected_json_body)
         end
       end
     end
