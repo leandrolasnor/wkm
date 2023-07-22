@@ -8,10 +8,6 @@ class ApiController < ApplicationController
     head :not_found
   end
 
-  def health
-    head :ok
-  end
-
   private
 
   def error

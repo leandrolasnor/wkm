@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe ApiController do
   describe 'GET /health' do
     before do
-      get(root_path)
+      get('/health')
     end
 
     it 'must be able to get a oks message' do

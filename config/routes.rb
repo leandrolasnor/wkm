@@ -20,6 +20,6 @@ Rails.application.routes.draw do
     post :schedule
   end
 
-  root to: 'api#health', via: :all
+  get '/health', to: proc { [200, {}, ['success']] }
   match '*path' => 'api#not_found', via: :all
 end
