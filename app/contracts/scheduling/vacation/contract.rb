@@ -8,9 +8,8 @@ class Scheduling::Vacation::Contract < Dry::Validation::Contract
   end
 
   rule(:end_date, :start_date) do
-    start_date = values[:start_date].to_date
-    end_date = values[:end_date].to_date
-    if end_date < start_date
+    request_days = (values[:end_date].to_date - values[:start_date].to_date).to_i
+    unless request_days.positive?
       key(:start_date).failure('must be before end date')
       key(:end_date).failure('must be after start date')
     end

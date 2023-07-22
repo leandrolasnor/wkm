@@ -6,16 +6,11 @@ class Scheduling::Vacation
   param :params
 
   option :model, default: -> { Vacation }
-  option :employment_laws, default: -> {
-    [
-      Laws::MCMLXXVII::Abr15Art130N1535.new.call(params.to_h)
-    ]
-  }
-  option :preventions, default: -> { employment_laws.select(&:failure?) }
+  option :contract, default: -> { Employing::Laws::Vacation::Law.new.call(params.to_h) }
 
   def schedule
-    return model.create(params) unless preventions.any?
+    return model.create(params) if contract.success?
 
-    raise StandardError.new(preventions.flatten.map { _1.errors.to_h }.to_json)
+    raise StandardError.new(contract.errors.to_h.to_json)
   end
 end
