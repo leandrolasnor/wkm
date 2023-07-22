@@ -31,4 +31,9 @@
 
 en:
   hello: "Hello world"
-  thirty_days_each_period_twelve_months: '[1977-04-15 Art130 1535] 30 (thirty) calendar days after each period of 12 (twelve) months of the employment contract'
+  dry_validation:
+    errors:
+      availability: "Vacation period exceeds the availability limit"
+      min_teen_days: "Vacation period less than 10 days"
+      overlap: "Vacation period with overlap"
+      fireable: "The employee is enjoying your vacations"
