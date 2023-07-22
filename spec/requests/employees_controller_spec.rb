@@ -146,6 +146,34 @@ RSpec.describe EmployeesController do
           expect(json_body).to eq(expected_json_body)
         end
       end
+
+      context 'when employee is enjoying your vacation' do
+        let(:params) { { employee_id: employee.id } }
+        let(:employee) do
+          e = create(:employee)
+          create(
+            :vacation,
+            start_date: '2023-06-07',
+            end_date: '2023-07-07',
+            employee_id: e.id
+          )
+          e
+        end
+        let(:expected_json_body) do
+          {
+            employee_id: [I18n.t('dry_validation.errors.fireable')]
+          }
+        end
+
+        before do
+          delete(fire_employee_path, params: params, as: :json)
+        end
+
+        it 'must be able to soft delete the employee' do
+          expect(response).to be_unprocessable
+          expect(json_body).to eq(expected_json_body)
+        end
+      end
     end
   end
 
