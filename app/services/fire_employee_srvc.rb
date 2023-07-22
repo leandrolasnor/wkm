@@ -11,5 +11,7 @@ class FireEmployeeSrvc < ApplicationService
     fired = repository.fire
 
     [fired, :ok, serializer]
+  rescue StandardError => error
+    [error.message, :unprocessable_entity, nil]
   end
 end
