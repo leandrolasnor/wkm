@@ -5,12 +5,18 @@ class Firing::Employee
 
   param :params
 
-  option :employee_id, default: -> { params[:employee_id] }
   option :model, default: -> { Employee }
+  option :employee_id, default: -> { params[:employee_id] }
+  option :employee, default: -> { model.find(employee_id) }
+  option :contract, default: -> { Firing::Employee::Fireable::Contract.new(employee: employee) }
+  option :fireable, default: -> { contract.call(params.to_h) }
 
   def fire
-    employee = model.find(employee_id)
-    employee.destroy
-    employee
+    if fireable.success?
+      employee.destroy
+      return employee
+    end
+
+    raise StandardError.new(fireable.errors.to_h.to_json)
   end
 end
