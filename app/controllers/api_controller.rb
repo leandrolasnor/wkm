@@ -9,13 +9,12 @@ class ApiController < ApplicationController
   end
 
   def health
-    render body: 'I am here!', status: :ok
+    head :ok
   end
 
   private
 
   def error
-    bug
     head :internal_server_error
   end
 
