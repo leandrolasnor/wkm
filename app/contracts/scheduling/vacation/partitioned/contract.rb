@@ -15,11 +15,11 @@ class Scheduling::Vacation::Partitioned::Contract < Dry::Validation::Contract
     key(:partitions).failure(:must_have_three_items) if values[:partitions].size != 3
 
     partition_days_negative = values[:partitions].find do
-      (_1[:end_date].to_date - _1[:star_date].to_date).to_i.negative?
+      (_1[:end_date].to_date - _1[:start_date].to_date).to_i.negative?
     end
 
-    key(:partitions).failure(:before_end_date) if partition_days_negative
-    key(:partitions).failure(:after_start_date) if partition_days_negative
+    key(:start_date).failure(:before_end_date) if partition_days_negative
+    key(:end_date).failure(:after_start_date) if partition_days_negative
   rescue ArgumentError
     key(:partitions).failure(:date_format_invalid)
   end
