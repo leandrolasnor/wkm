@@ -88,7 +88,7 @@ RSpec.describe EmployeesController do
 
         let(:expected_json_body) do
           {
-            employee_id: ["must be a valid registration identifier"]
+            employee_id: [I18n.t('dry_validation.errors.valid_identifier')]
           }
         end
 
@@ -161,7 +161,7 @@ RSpec.describe EmployeesController do
         end
         let(:expected_json_body) do
           {
-            employee_id: [I18n.t('dry_validation.errors.fireable')]
+            employee_id: [I18n.t('dry_validation.errors.not_fireable')]
           }
         end
 
@@ -169,7 +169,7 @@ RSpec.describe EmployeesController do
           delete(fire_employee_path, params: params, as: :json)
         end
 
-        it 'must be able to soft delete the employee' do
+        it 'must not be able to soft delete the employee' do
           expect(response).to be_unprocessable
           expect(json_body).to eq(expected_json_body)
         end

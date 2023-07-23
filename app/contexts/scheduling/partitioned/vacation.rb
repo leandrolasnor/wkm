@@ -9,7 +9,7 @@ class Scheduling::Partitioned::Vacation
   option :model, default: -> { Vacation }
   option :contract, default: -> { Employing::Laws::Partitioned::Vacation::Law.new.call(params.to_h) }
 
-  def schedule
+  def schedule!
     return model.create(partitions) if contract.success?
 
     raise StandardError.new(contract.errors.to_h.to_json)

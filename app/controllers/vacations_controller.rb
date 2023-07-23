@@ -6,7 +6,7 @@ class VacationsController < ApiController
   end
 
   def partitioned_schedule
-    resolve(**PartitionedScheduleSrvc.call(partitioned_schedule_params))
+    resolve(**PartitionedScheduleVacationSrvc.call(partitioned_schedule_vacation_params))
   end
 
   private
@@ -19,7 +19,7 @@ class VacationsController < ApiController
     vacation_params.permit(:start_date, :end_date, :employee_id)
   end
 
-  def partitioned_schedule_params
+  def partitioned_schedule_vacation_params
     params.permit(:employee_id, partitions: [:start_date, :end_date])
   end
 end

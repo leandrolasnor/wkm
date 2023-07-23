@@ -5,13 +5,11 @@ class PartitionedScheduleVacationSrvc < ApplicationService
 
   option :serializer, default: -> { VacationSerializer }
   option :repository, default: -> { Scheduling::Partitioned::Vacation.new(params) }
-  Contract = Scheduling::Partitioned::Vacation::Contract.new
+  Contract = Scheduling::Vacation::Partitioned::Contract.new
 
   def call
-    scheduled = repository.schedule
+    scheduled = repository.schedule!
 
     [scheduled, :created, serializer]
-  rescue StandardError => error
-    [error.message, :unprocessable_entity, nil]
   end
 end

@@ -8,7 +8,7 @@ class Scheduling::Vacation
   option :model, default: -> { Vacation }
   option :contract, default: -> { Employing::Laws::Vacation::Law.new.call(params.to_h) }
 
-  def schedule
+  def schedule!
     return model.create(params) if contract.success?
 
     raise StandardError.new(contract.errors.to_h.to_json)

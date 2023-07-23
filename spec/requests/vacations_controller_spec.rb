@@ -52,7 +52,7 @@ RSpec.describe VacationsController do
 
       let(:expected_json_body) do
         {
-          employee_id: ["must be a valid registration identifier"]
+          employee_id: [I18n.t('dry_validation.errors.valid_identifier')]
         }
       end
 
@@ -77,8 +77,8 @@ RSpec.describe VacationsController do
 
       let(:expected_json_body) do
         {
-          start_date: ["must be filled with Y-m-d date format"],
-          end_date: ["must be filled with Y-m-d date format"]
+          start_date: [I18n.t('dry_validation.errors.date_format_invalid')],
+          end_date: [I18n.t('dry_validation.errors.date_format_invalid')]
         }
       end
 
@@ -103,8 +103,8 @@ RSpec.describe VacationsController do
 
       let(:expected_json_body) do
         {
-          start_date: ["must be before end date"],
-          end_date: ["must be after start date"]
+          start_date: [I18n.t('dry_validation.errors.before_end_date')],
+          end_date: [I18n.t('dry_validation.errors.after_start_date')]
         }
       end
 

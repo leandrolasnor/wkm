@@ -11,5 +11,7 @@ class ApplicationService
     end
 
     { content: contract.errors.to_h, status: :unprocessable_entity }
+  rescue StandardError => error
+    { content: error.message, status: :unprocessable_entity }
   end
 end

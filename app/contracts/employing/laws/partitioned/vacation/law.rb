@@ -9,6 +9,7 @@ class Employing::Laws::Partitioned::Vacation::Law < Employing::Laws::Vacation::P
     end
   end
 
+  rule(:partitions).validate(:max_thirty_days)
   rule(:employee_id, :partitions).validate(:availability)
   rule(:employee_id, :partitions).validate(:overlap)
   rule(:employee_id, :partitions).validate(:partitioned)

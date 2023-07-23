@@ -8,10 +8,8 @@ class ScheduleVacationSrvc < ApplicationService
   Contract = Scheduling::Vacation::Contract.new
 
   def call
-    scheduled = repository.schedule
+    scheduled = repository.schedule!
 
     [scheduled, :created, serializer]
-  rescue StandardError => error
-    [error.message, :unprocessable_entity, nil]
   end
 end
