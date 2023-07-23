@@ -5,7 +5,7 @@ class Scheduling::Partitioned::Vacation
 
   param :params
 
-  option :partitions, default: -> { params[:partitions] { _1.merge(employee_id: params[:employee_id]) } }
+  option :partitions, default: -> { params[:partitions].map { _1.merge(employee_id: params[:employee_id]) } }
   option :model, default: -> { Vacation }
   option :contract, default: -> { Employing::Laws::Partitioned::Vacation::Law.new.call(params.to_h) }
 
