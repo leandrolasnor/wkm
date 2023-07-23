@@ -10,6 +10,8 @@ gem 'dry-initializer'
 
 gem 'dry-validation'
 
+gem 'rack-cors'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
