@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   resource :vacation, only: [] do
     post :schedule
+    post :partitioned_schedule
   end
 
   get '/health', to: proc { [200, {}, ['success']] }
