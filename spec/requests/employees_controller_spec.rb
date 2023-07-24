@@ -17,6 +17,7 @@ RSpec.describe EmployeesController do
         let(:params) { { name: 'Valdez', position: 'Analyst' } }
         let(:expected_json_body) do
           {
+            id: be_a(Integer),
             name: 'Valdez',
             position: 'Analyst',
             hire_date: '2023-07-01'
@@ -29,7 +30,7 @@ RSpec.describe EmployeesController do
 
         it "must be able to hire a employee" do
           expect(response).to be_created
-          expect(json_body).to eq(expected_json_body)
+          expect(json_body).to match(expected_json_body)
         end
       end
 
@@ -67,6 +68,7 @@ RSpec.describe EmployeesController do
         end
         let(:expected_json_body) do
           {
+            id: be_a(Integer),
             name: 'Eduardo',
             position: 'Chair Man',
             hire_date: '2023-07-01'
@@ -79,7 +81,7 @@ RSpec.describe EmployeesController do
 
         it "must be able to advanced a employee to Chair Man" do
           expect(response).to be_successful
-          expect(json_body).to eq(expected_json_body)
+          expect(json_body).to match(expected_json_body)
         end
       end
 
@@ -112,6 +114,7 @@ RSpec.describe EmployeesController do
         let(:employee) { create(:employee, :analyst, name: 'Arthur') }
         let(:expected_json_body) do
           {
+            id: be_a(Integer),
             name: 'Arthur',
             position: 'Analyst',
             hire_date: '2023-07-01'
@@ -124,7 +127,7 @@ RSpec.describe EmployeesController do
 
         it 'must be able to soft delete the employee' do
           expect(response).to be_successful
-          expect(json_body).to eq(expected_json_body)
+          expect(json_body).to match(expected_json_body)
           expect(paranoia_employee).not_to be_nil
         end
       end
