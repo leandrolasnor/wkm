@@ -5,3 +5,15 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+30.times do
+  FactoryBot.create(:employee)
+end
+
+FactoryBot.create(
+  :vacation,
+  employee: Employee.first,
+  start_date: 1.day.ago,
+  end_date: 20.days.from_now
+)
+
+Employee.second.update(hire_date: 2.years.ago)
