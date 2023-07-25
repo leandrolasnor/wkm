@@ -229,6 +229,40 @@ RSpec.describe VacationsController do
       end
     end
 
+    context 'when params is missing' do
+      let(:params) do
+        {
+          partitions: [
+            {
+              start_date: '2023-04-02',
+              end_date: '2023-04-16'
+            },
+            {},
+            {}
+          ],
+          employee_id: employee.id
+        }
+      end
+
+      let(:expected_json_body) do
+        {
+          partitions: {
+            '1': { start_date: ['is missing'], end_date: ['is missing'] },
+            '2': { start_date: ['is missing'], end_date: ['is missing'] }
+          }
+        }
+      end
+
+      before do
+        post(partitioned_schedule_vacation_path, params: params, as: :json)
+      end
+
+      it 'must to happen something' do
+        expect(response).to be_unprocessable
+        expect(json_body).to eq(expected_json_body)
+      end
+    end
+
     context 'when the employee is not found' do
       let(:expected_json_body) do
         {
