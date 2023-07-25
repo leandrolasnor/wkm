@@ -1,5 +1,6 @@
 import { toastr } from "react-redux-toastr";
 import axios from 'axios'
+import handle_errors from './handle_errors'
 
 export const getEmployees = page => {
   return dispatch => {
@@ -8,9 +9,7 @@ export const getEmployees = page => {
     .then( resp => {
       dispatch({type: 'FETCH_EMPLOYEES', payload: { employees: resp.data }})
     })
-    .catch( e => {
-      toastr.error(String(e.response.status), e.response.statusText);
-    })
+    .catch( e => handle_errors(e))
   }
 }
 
@@ -20,32 +19,14 @@ export const createEmployee = employee => {
     .then( resp => {
       dispatch({type: 'CREATED_EMPLOYEE', payload: { employee: resp.data }})
     })
-    .catch( e => {
-      toastr.error(String(e.response.status), e.response.statusText);
-    })
+    .catch( e => handle_errors(e))
   }
 }
 
 export const createVacation = vacation => {
   return dispatch => {
     axios.post('http://localhost:3000/vacation/schedule', { vacation }).then( resp => {
-      toastr.success('', 'Vacation created')
-    }).catch( e => {
-      if(e.response.data.availability){
-        e.response.data.availability.forEach(error => {
-          toastr.error('Availability', error);
-        });
-      }else if(e.response.data.start_date || e.response.data.end_date){
-        e.response.data.start_date.forEach(error => {
-          toastr.error('Start Date', error);
-        });
-      }else if(e.response.data.overlap){
-        e.response.data.overlap.forEach(error => {
-          toastr.error('Overlaped', error);
-        });
-      }else{
-        toastr.error(String(e.response.status), e.response.statusText);
-      }
-    })
+      toastr.success('Vacation', 'Created')
+    }).catch( e => handle_errors(e))
   }
 }
