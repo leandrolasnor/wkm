@@ -3,6 +3,8 @@ const INITIAL_STATE = {
   complete: false
 };
 
+let employee;
+
 var reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "FETCH_EMPLOYEES":
@@ -14,8 +16,12 @@ var reducer = (state = INITIAL_STATE, action) => {
         ],
         complete: action.payload.employees.length === 0
       }
+    case "PROMOTED_EMPLOYEE":
+      employee = state.list.find(e => e.id === action.payload.employee.id)
+      employee.position = action.payload.employee.position
+      return {...state}
     case "EMPLOYEE_FIRED":
-      let employee = state.list.find(e => e.id === action.payload.employee.id)
+      employee = state.list.find(e => e.id === action.payload.employee.id)
       employee.fired = true
       return {...state}
     case "CREATED_EMPLOYEE":

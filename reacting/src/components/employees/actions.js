@@ -30,3 +30,14 @@ export const createVacation = vacation => {
     }).catch( e => handle_errors(e))
   }
 }
+
+export const promoteEmployee = employee => {
+  debugger
+  return dispatch => {
+    axios.patch('http://localhost:3000/employee/promotion', { employee }).then( resp => {
+      let {name, position} = resp.data
+      dispatch({type: 'PROMOTED_EMPLOYEE', payload: {employee: resp.data}})
+      toastr.info(name + ' has been promoted to', position)
+    }).catch( e => handle_errors(e))
+  }
+}
