@@ -22,8 +22,8 @@ Considere as seguintes regras para o cadastro de férias:
 ### Após acessar o container de desenvolvimento, rode os testes
 ```rspec spec```
 
-### Suba a API(3000) rodando
-```rails s -b 0.0.0.0```
+### Prepare e Suba a API(3000) rodando
+```rails db:reset && rails s -b 0.0.0.0```
 
 ### Suba o Front(3001) rodando
 ```cd reacting && yarn start```
