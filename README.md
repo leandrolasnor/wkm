@@ -12,3 +12,18 @@ Considere as seguintes regras para o cadastro de férias:
 3. Não deve permitir cadastro de períodos de férias que se sobreponham, para um mesmo colaborador.
 4. A duração de cada período de férias não pode ser menor do que 10 dias.
 
+
+### Colocando as coisas para funcionar
+#
+
+#### Faça download da pasta `.devcontainer` e pelo terminal rode
+```docker compose up -d```
+
+### Após acessar o container de desenvolvimento, rode os testes
+```rspec spec```
+
+### Suba a API(3000) rodando
+```rails s -b 0.0.0.0```
+
+### Suba o Front(3001) rodando
+```cd reacting && yarn start```
