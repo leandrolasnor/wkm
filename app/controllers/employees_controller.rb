@@ -32,7 +32,7 @@ class EmployeesController < ApiController
   end
 
   def promotion_params
-    params.permit(:employee_id, :position)
+    params_employee.permit(:id, :position)
   end
 
   def fire_params

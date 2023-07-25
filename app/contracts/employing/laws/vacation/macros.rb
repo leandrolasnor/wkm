@@ -6,7 +6,7 @@ class Employing::Laws::Vacation::Macros < Dry::Validation::Contract
   register_macro(:availability) do
     request_days = (values[:end_date].to_date - values[:start_date].to_date).to_i
 
-    employee = Employee.find(values[:employee_id])
+    employee = Employee.includes(:vacations).find(values[:employee_id])
     key(:availability).failure(:availability) if employee.vacation_days_available < request_days
   end
 

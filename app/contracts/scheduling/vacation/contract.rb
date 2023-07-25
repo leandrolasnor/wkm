@@ -21,6 +21,6 @@ class Scheduling::Vacation::Contract < Dry::Validation::Contract
   end
 
   rule(:employee_id) do
-    key.failure(:valid_identifier) unless Employee.exists?(value)
+    key(:employee).failure(:valid_identifier) unless Employee.exists?(value)
   end
 end
