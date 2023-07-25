@@ -4,10 +4,12 @@ import { fireEmployee } from './actions'
 import { Col, Card, Button } from "react-bootstrap";
 
 const Employee = (props) => {
+  const dispatch = useDispatch()
+
   const {id, name, position, hire_date, fired} = props.employee
   const {showVacationForm} = props
-  const dispatch = useDispatch()
-  const Fire = props => {
+
+  const ButtonFire = props => {
     const fired = props.fired
     return (fired ? <span>Fired!</span> : <Button variant="outline-danger" onClick={() => dispatch(fireEmployee(id))}>Fire!</Button>)
   }
@@ -22,7 +24,7 @@ const Employee = (props) => {
         <Card.Title className="d-flex justify-content-between">
           <Name fired={fired} />  
           <Col lg={1} className="d-flex justify-content-end">
-            <Fire fired={fired}/>
+            <ButtonFire fired={fired}/>
           </Col>
         </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{position}</Card.Subtitle>
