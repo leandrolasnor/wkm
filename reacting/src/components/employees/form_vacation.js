@@ -4,7 +4,7 @@ import { useDispatch, useSelector, connect } from "react-redux";
 import DatePicker from '../commons/date_picker/component'
 
 let FormVacation = (props) => {
-  const {title, subtitle, show, pristine, save, submitting, handleClose} = props
+  const {title, show, pristine, save, submitting, handleClose} = props
   const dispatch = useDispatch()
   const seletor = formValueSelector("vacationForm");
   const start_date = useSelector(state => seletor(state, 'start_date'))
