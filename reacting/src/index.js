@@ -11,6 +11,7 @@ import promise from "redux-promise";
 import multi from "redux-multi";
 import thunk from "redux-thunk";
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const devTools =
   process.env.NODE_ENV === "development"
