@@ -52,7 +52,7 @@ RSpec.describe VacationsController do
 
       let(:expected_json_body) do
         {
-          employee_id: [I18n.t('dry_validation.errors.valid_identifier')]
+          employee: [I18n.t('dry_validation.errors.valid_identifier')]
         }
       end
 

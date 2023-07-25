@@ -57,7 +57,7 @@ RSpec.describe EmployeesController do
   describe "PATCH /promotion" do
     context "when promotion a employee" do
       context "on success" do
-        let(:params) { { employee_id: employee.id, position: 'Chair Man' } }
+        let(:params) { { id: employee.id, position: 'Chair Man' } }
         let(:employee) do
           create(
             :employee,
@@ -86,11 +86,11 @@ RSpec.describe EmployeesController do
       end
 
       context 'on not_found' do
-        let(:params) { { employee_id: 0, position: 'Chair Man' } }
+        let(:params) { { id: 0, position: 'Chair Man' } }
 
         let(:expected_json_body) do
           {
-            employee_id: [I18n.t('dry_validation.errors.valid_identifier')]
+            employee: [I18n.t('dry_validation.errors.valid_identifier')]
           }
         end
 
@@ -136,7 +136,7 @@ RSpec.describe EmployeesController do
         let(:params) { { employee_id: 0, position: 'Chair Man' } }
         let(:expected_json_body) do
           {
-            employee_id: ["must be a valid registration identifier"]
+            employee: [I18n.t('dry_validation.errors.valid_identifier')]
           }
         end
 
@@ -164,7 +164,7 @@ RSpec.describe EmployeesController do
         end
         let(:expected_json_body) do
           {
-            employee_id: [I18n.t('dry_validation.errors.not_fireable')]
+            fireable: [I18n.t('dry_validation.errors.not_fireable')]
           }
         end
 
