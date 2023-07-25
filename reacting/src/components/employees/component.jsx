@@ -1,11 +1,11 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import Employee from '../employee/component'
-import { Home, Header, Subheader, Grid, Button, IncreaseButton } from '../commons/components'
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { getEmployees, createEmployee, createVacation } from './actions'
+import Employee from '../employee/component'
 import FormEmployee from "./form_employee";
 import FormVacation from "./form_vacation";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const Employees = () => {
   const dispatch = useDispatch()
@@ -18,31 +18,38 @@ const Employees = () => {
   const [showVacationForm, setShowVacationForm] = useState(false);	
 
   useEffect(() => {setPage(1)}, [])
-  useEffect(() => {fetch(complete)}, [page])
-
-  const fetch = complete => {
-    if(complete) return;
-    dispatch(getEmployees(page))
-  }
+  useEffect(() => {if(!complete) dispatch(getEmployees(page));}, [page])
 
   const grid = list.map( (employee, index) => {
     return (<Employee key={index} employee={employee} showVacationForm={props => setShowVacationForm(props)} />)
   })
 
   return(
-    <Home>
-      <Header>
+    <Container style={{backgroundColor: 'rgba(0, 0, 0, 0.08)'}} className="mt-5 mb-5" lg={12} md={12} sm={12} xs={12}>
+      <Row>
         <h1>Company</h1>
-        <Subheader>Staff</Subheader>
-        <IncreaseButton onClick={() => setShowEmployeeForm(true)}>Increase</IncreaseButton>
-      </Header>
-      <Grid>
-        {grid}
-      </Grid>
-      { complete ? null : <Button onClick={() => setPage(page+1)}>More</Button> }
+      </Row>
+      <Row>
+        <Col lg={1}>
+          <h6>Staff</h6>
+        </Col>
+        <Col className="mb-5" lg={12}>
+          <Button variant="outline-secondary"onClick={() => setShowEmployeeForm(true)}>Increase</Button>
+        </Col>
+      </Row>
+      <Row style={{backgroundColor: 'rgba(0, 0, 0, 0.07)'}}>
+        <Col lg={12} className="mb-5">
+          <Row>
+            {grid}
+          </Row>
+        </Col>
+      </Row>
+      <Row>
+        { complete ? null : <Button onClick={() => setPage(page+1)}>More</Button> }
+      </Row>
       <FormEmployee save={props => dispatch(createEmployee(props))} title="New" subtitle="Employee" show={showEmployeeForm} handleClose={() => setShowEmployeeForm(false)}/>
       <FormVacation save={props => dispatch(createVacation(props))} title="Vacation" show={showVacationForm} handleClose={() => setShowVacationForm(false)}/>
-    </Home>
+    </Container>
   )
 }
 

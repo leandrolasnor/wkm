@@ -1,53 +1,37 @@
 import React from 'react'
 import { useDispatch } from "react-redux";
 import { fireEmployee } from './actions'
-import styled from 'styled-components'
-import { FireButton, Card, Button} from '../commons/components'
-
-const Name = styled.div`
-  padding:1px;
-`
-const Position = styled.div`
-  padding-bottom: 20px;
-`
-const HireDate = styled.div`
-  margin: 1px 0;
-  padding-bottom: 20px;
-  a {
-    color: #fff;
-    background-color: #71b406;
-    border-radius: 4px;
-    padding: 10px 30px;
-    cursor: pointer;
-    border-radius: 3px;
-    border: 1px solid #71b406;
-    text-align: center;
-    line-height: 20px;
-    min-height: 40px;
-    margin: 7px;
-    font-weight: 600;
-    text-decoration: none;
-}
-`
+import { Col, Card, Button } from "react-bootstrap";
 
 const Employee = (props) => {
   const {id, name, position, hire_date, fired} = props.employee
   const {showVacationForm} = props
   const dispatch = useDispatch()
+  const Fire = props => {
+    const fired = props.fired
+    return (fired ? <span>Fired!</span> : <Button variant="outline-danger" onClick={() => dispatch(fireEmployee(id))}>Fire!</Button>)
+  }
+  const Name = props => {
+    const fired = props.fired
+    return (fired ? <s>{name}</s> : <h2>{ name }</h2>)
+  }
 
   return(
-    <Card>
-      <Name>
-        {fired === true ? <s>{ name }</s> : <label>{ name }</label>}
-      </Name>
-      <Position>
-        {position}
-      </Position>
-      {fired === true ? <label>Fired!</label> : <FireButton onClick={() => dispatch(fireEmployee(id))}>Fire!</FireButton>}
-      <HireDate>
-        <small>{hire_date}</small>
-      </HireDate>
-      <Button onClick={() => showVacationForm(props.employee)}>Vacations!</Button>
+    <Card bg={fired ? 'danger' : 'light'} className="my-3 mx-5">
+      <Card.Body>
+        <Card.Title className="d-flex justify-content-between">
+          <Name fired={fired} />  
+          <Col lg={1} className="d-flex justify-content-end">
+            <Fire fired={fired}/>
+          </Col>
+        </Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{position}</Card.Subtitle>
+        <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Add vacation</Card.Link>
+        <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Add partitioned</Card.Link>
+      </Card.Body>
+      <Card.Body>
+        <Card.Text href="#">{hire_date}</Card.Text>
+      </Card.Body>
     </Card>
   )
 }
