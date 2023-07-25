@@ -32,12 +32,29 @@ export const createVacation = vacation => {
 }
 
 export const promoteEmployee = employee => {
-  debugger
   return dispatch => {
-    axios.patch('http://localhost:3000/employee/promotion', { employee }).then( resp => {
+    axios.patch('http://localhost:3000/employee/promotion', employee).then( resp => {
       let {name, position} = resp.data
       dispatch({type: 'PROMOTED_EMPLOYEE', payload: {employee: resp.data}})
       toastr.info(name + ' has been promoted to', position)
     }).catch( e => handle_errors(e))
+  }
+}
+
+export const partitionedSchedule = partitioned => {
+  return dispatch => {
+    axios.post('http://localhost:3000/vacation/partitioned_schedule', { ...partitioned }).then( resp => {
+      toastr.warning('Partitioned Vacation', 'Created!')
+    }).catch( e => handle_errors(e))
+  }
+}
+
+export const fireEmployee = id => {
+  return dispatch => {
+    axios.delete('http://localhost:3000/employee/fire', { data: {employee_id: id } } )
+    .then( resp => {
+      dispatch({type: 'EMPLOYEE_FIRED', payload: { employee: resp.data }})
+    })
+    .catch( e => handle_errors(e))
   }
 }
