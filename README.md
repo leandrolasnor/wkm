@@ -26,4 +26,4 @@ Considere as seguintes regras para o cadastro de férias:
 ```rails db:reset && rails s -b 0.0.0.0```
 
 ### Suba o Front(3001) rodando
-```cd reacting && yarn start```
+```yarn --cwd ./reacting start```
