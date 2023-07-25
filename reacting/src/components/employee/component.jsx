@@ -2,6 +2,11 @@ import React from 'react'
 import { useDispatch } from "react-redux";
 import { fireEmployee } from './actions'
 import { Col, Card, Button } from "react-bootstrap";
+import styled from 'styled-components'
+
+const OpaqueCard = styled(Card)`
+  background-color: rgba(230, 250, 200, 0.6)
+`
 
 const Employee = (props) => {
   const dispatch = useDispatch()
@@ -19,7 +24,7 @@ const Employee = (props) => {
   }
 
   return(
-    <Card bg={fired ? 'danger' : 'light'} className="my-3 mx-5">
+    <OpaqueCard bg={fired ? 'danger' : ''} className="my-3 mx-5">
       <Card.Body>
         <Card.Title className="d-flex justify-content-between">
           <Name fired={fired} />  
@@ -34,7 +39,7 @@ const Employee = (props) => {
       <Card.Body>
         <Card.Text href="#">{hire_date}</Card.Text>
       </Card.Body>
-    </Card>
+    </OpaqueCard>
   )
 }
 

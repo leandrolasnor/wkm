@@ -6,19 +6,19 @@ import FormEmployee from "./form_employee";
 import Grid from './grid'
 import styled from 'styled-components'
 
+const OpaqueContainer = styled(Container)`
+  background-color: rgba(0, 0, 0, 0.08)
+`
+const OpaqueRow = styled(Row)`
+  background-color: rgba(0, 0, 0, 0.07)
+`
+
 const Employees = () => {
   const dispatch = useDispatch()
   const [showEmployeeForm, setShowEmployeeForm] = useState(false);
 
-  const OpaqueContainer = styled(Container)`
-    background-color: rgba(0, 0, 0, 0.08)
-  `
-  const OpaqueRow = styled(Row)`
-    background-color: rgba(0, 0, 0, 0.07)
-  `
-
   return(
-    <OpaqueContainer className="mt-5 mb-5" lg={12} md={12} sm={12} xs={12}>
+    <OpaqueContainer className="pt-2 pb-2" lg={12} md={12} sm={12} xs={12}>
       <Row><h1>Company</h1></Row>
       <Row>
         <Col lg={1}><h6>Staff</h6></Col>
