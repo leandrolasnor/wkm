@@ -1,7 +1,7 @@
 FROM ruby:3.2.2-alpine3.18
 RUN apk update && apk add \
     build-base libxslt-dev libxml2-dev tzdata git sqlite sqlite-dev zsh wget \
-    shared-mime-info vim curl font-meslo-nerd shadow zsh-vcs
+    shared-mime-info vim curl font-meslo-nerd shadow zsh-vcs yarn
 
 ENV APP_HOME /app
 WORKDIR $APP_HOME
