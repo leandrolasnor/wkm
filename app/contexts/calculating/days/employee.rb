@@ -15,8 +15,6 @@ class Calculating::Days::Employee
     @vacation_days_available ||= total_vacation - enjoyed
   end
 
-  private
-
   def enjoyed
     @enjoyed ||= employee.vacations.sum do
       end_date = _1.end_date.to_date
