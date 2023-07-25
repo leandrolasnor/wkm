@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { applyMiddleware, createStore } from "redux";
+import { applyMiddleware } from "redux";
+import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from "react-redux";
 import './index.css';
 import App from './App';
@@ -42,8 +43,8 @@ const devTools =
     : null;
 const store =
   process.env.NODE_ENV === "development"
-    ? applyMiddleware(multi, thunk, promise)(createStore)(reducers, devTools)
-    : applyMiddleware(multi, thunk, promise)(createStore)(reducers);
+    ? applyMiddleware(multi, thunk, promise)(configureStore)({reducer: reducers}, devTools)
+    : applyMiddleware(multi, thunk, promise)(configureStore)({reducer: reducers});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
