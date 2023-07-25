@@ -33,8 +33,8 @@ const Employee = (props) => {
           </Col>
         </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{position}</Card.Subtitle>
-        <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Add vacation</Card.Link>
-        <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Add partitioned</Card.Link>
+        <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Schedule!</Card.Link>
+        <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Partitioned Schedule</Card.Link>
       </Card.Body>
       <Card.Body>
         <Card.Text href="#">{hire_date}</Card.Text>

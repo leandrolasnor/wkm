@@ -19,11 +19,10 @@ const Employees = () => {
 
   return(
     <OpaqueContainer className="pt-2 pb-2" lg={12} md={12} sm={12} xs={12}>
-      <Row><h1>Company</h1></Row>
+      <Row><h1>BreakBreak</h1></Row>
       <Row>
-        <Col lg={1}><h6>Staff</h6></Col>
-        <Col className="mb-5" lg={12}>
-          <Button variant="outline-secondary"onClick={() => setShowEmployeeForm(true)}>Increase</Button>
+        <Col className='pb-3'>
+          <Button variant="outline-success"onClick={() => setShowEmployeeForm(true)}>Hire!</Button>
         </Col>
       </Row>
       <OpaqueRow><Grid /></OpaqueRow>
