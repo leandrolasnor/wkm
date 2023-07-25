@@ -7,14 +7,14 @@ const InputText = props => <Form.Control className="mb-2" autoComplete="on" {...
 let FormPromotion = (props) => {
   const {show, pristine, save, submitting, handleClose} = props
   const dispatch = useDispatch()
-  const seletor = formValueSelector("PromotionForm");
+  const seletor = formValueSelector("promotionForm");
   const next_position = useSelector(state => seletor(state, 'position'))
   const { id, name, position } = props.show
   const data = { id: id, position: next_position }
 
   return (
     <Col>
-      <Modal size="md" centered show={show} onShow={() => dispatch(reset('PromotionForm'))} onHide={handleClose}>
+      <Modal size="md" centered show={show} onShow={() => dispatch(reset('promotionForm'))} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter"> 
             <blockquote className="blockquote mb-0">
@@ -51,6 +51,6 @@ let FormPromotion = (props) => {
     </Col>
   )
 }
-FormPromotion = reduxForm({ form: "PromotionForm", enableReinitialize: true})(FormPromotion);
-FormPromotion = connect(state => ({pristine: isPristine('PromotionForm')(state)}), null)(FormPromotion)
+FormPromotion = reduxForm({ form: "promotionForm", enableReinitialize: true})(FormPromotion);
+FormPromotion = connect(state => ({pristine: isPristine('promotionForm')(state)}), null)(FormPromotion)
 export default FormPromotion;

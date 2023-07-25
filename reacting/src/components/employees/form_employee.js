@@ -42,7 +42,7 @@ let FormEmployee = (props) => {
                           <Field name="position" required component={InputText} placeholder="Position"/>
                         </Col>
                         <Col lg={6} md={12} sm={12} xs={12}>
-                          <button type="submit" disabled={pristine || submitting} className="mt-2 btn btn-success btn-block pull-right font-weight-bold btn-sm">Save</button>
+                          <button type="submit" disabled={pristine || submitting} className="mt-2 btn btn-success btn-block pull-right font-weight-bold btn-sm">Hire!</button>
                         </Col>
                       </Form.Group>
                     </Form>

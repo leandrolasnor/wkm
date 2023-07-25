@@ -19,7 +19,7 @@ const Employees = () => {
 
   return(
     <OpaqueContainer className="pt-2 pb-2" lg={12} md={12} sm={12} xs={12}>
-      <Row><h1>BreakBreak</h1></Row>
+      <Row><h1>Break::Break</h1></Row>
       <Row>
         <Col className='pb-3'>
           <Button variant="outline-success"onClick={() => setShowEmployeeForm(true)}>Hire!</Button>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from "react-redux";
-import { fireEmployee } from './actions'
+import { fireEmployee } from '../employees/actions'
 import { Col, Card, Button } from "react-bootstrap";
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,10 +22,10 @@ const Employee = (props) => {
   const dispatch = useDispatch()
 
   const {id, name, position, hire_date, fired} = props.employee
-  const {showVacationForm, showPromotionForm} = props
+  const {showVacationForm, showPromotionForm, showPartitionedForm} = props
 
   return(
-    <OpaqueCard bg={fired ? 'danger' : ''} className="my-3 mx-5">
+    <OpaqueCard bg={fired ? 'danger' : ''} className="my-2">
       <Card.Body>
         <Card.Title className="d-flex justify-content-between">
           <Name fired={fired} name={name} />  
@@ -37,7 +37,7 @@ const Employee = (props) => {
         {position} <Card.Link href="#" onClick={() => showPromotionForm(props.employee)}><FontAwesomeIcon icon={faUser} /></Card.Link>
         </Card.Subtitle>
         <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Schedule!</Card.Link>
-        <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Partitioned Schedule</Card.Link>
+        <Card.Link href="#" onClick={() => showPartitionedForm(props.employee)}>Partitioned Schedule</Card.Link>
       </Card.Body>
       <Card.Body>
         <Card.Text href="#">{hire_date}</Card.Text>

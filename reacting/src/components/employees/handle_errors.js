@@ -6,7 +6,8 @@ const handle_errors = e => {
   if(_.get(e, 'response.data', false)){
     Object.entries(e.response.data).forEach(error => {
       const [key, value] = error;
-      toastr.error(_.capitalize(key), value.join(' '));
+      if(Array.isArray(value)) return toastr.error(_.capitalize(key), value.join(' '));
+      toastr.error(_.capitalize(key), JSON.stringify(value).replace(/,|\d|:|[|]|"|{|}/g, ' '));
     });
   }else if(_.get(e, 'response', false)){
     toastr.error(String(e.response.status), e.response.statusText);
