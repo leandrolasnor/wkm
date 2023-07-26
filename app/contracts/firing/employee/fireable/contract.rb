@@ -8,8 +8,10 @@ class Firing::Employee::Fireable::Contract < Dry::Validation::Contract
   end
 
   rule(:employee_id) do
-    employee = Employee.includes(:vacations).find(value)
-    fireable = !employee.vacations.exists?(['? between start_date and end_date', Time.zone.now])
+    employee = Employee.find(value)
+    fireable = !employee.vacations.exists?(
+      ['? between start_date and end_date', Time.zone.now]
+    )
 
     key(:fireable).failure(:not_fireable) unless fireable
   end
