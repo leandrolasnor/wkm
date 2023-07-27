@@ -4,7 +4,6 @@ const INITIAL_STATE = {
 };
 
 let employees;
-let employee;
 
 var reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -18,14 +17,12 @@ var reducer = (state = INITIAL_STATE, action) => {
         complete: action.payload.employees.length === 0
       }
     case "PROMOTED_EMPLOYEE":
-      employee = state.list.find(e => e.id === action.payload.employee.id)
       employees = state.list.filter(e => e.id !== action.payload.employee.id)
-      employees = [...employees, { ...employee, position: action.payload.employee.position }].sort((a,b) => a.id - b.id)
+      employees = [...employees, action.payload.employee].sort((a,b) => a.id - b.id)
       return {...state, list: [...employees]}
     case "EMPLOYEE_FIRED":
-      employee = state.list.find(e => e.id === action.payload.employee.id)
       employees = state.list.filter(e => e.id !== action.payload.employee.id)
-      employees = [...employees, { ...employee, fired: true }].sort((a,b) => a.id - b.id)
+      employees = [...employees, { ...action.payload.employee, fired: true }].sort((a,b) => a.id - b.id)
       return {...state, list: [...employees]}
     case "CREATED_EMPLOYEE":
       return {
