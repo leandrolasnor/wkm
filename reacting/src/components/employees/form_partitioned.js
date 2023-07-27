@@ -1,36 +1,27 @@
-import { Modal, Card, Row, Col, Container, Form } from "react-bootstrap"
-import { reduxForm, Field, formValueSelector, reset, isPristine} from "redux-form";
-import { useDispatch, useSelector, connect } from "react-redux";
-import DatePicker from '../commons/date_picker/component'
+import {useForm} from 'react-hook-form'
+import { Modal, Card, Row, Col, Container, Form, Button, FloatingLabel  } from "react-bootstrap"
+import { useDispatch } from "react-redux";
+import { createPartitionedVacation } from './actions';
+import moment from 'moment'
 
-let FormPartitioned = (props) => {
-  const {title, show, pristine, save, submitting, handleClose} = props
+const FormPartitioned = (props) => {
   const dispatch = useDispatch()
-  const seletor = formValueSelector("partitionedForm");
-
-  const start_date1 = useSelector(state => seletor(state, 'start_date1'))
-  const end_date1 = useSelector(state => seletor(state, 'end_date1'))
-
-  const start_date2 = useSelector(state => seletor(state, 'start_date2'))
-  const end_date2 = useSelector(state => seletor(state, 'end_date2'))
-
-  const start_date3 = useSelector(state => seletor(state, 'start_date3'))
-  const end_date3 = useSelector(state => seletor(state, 'end_date3'))
-
+  const {title, show, handleClose} = props
   const { name, id } = props.show
+  const {register, handleSubmit, reset} = useForm()
+  const tomorrow = moment().add(1, 'days').format('YYYY-MM-DD')
 
-  const data = {
-    employee_id: id,
-    partitions: [
-       { start_date: start_date1, end_date: end_date1 },
-       { start_date: start_date2, end_date: end_date2 },
-       { start_date: start_date3, end_date: end_date3 }
-    ]
+  let onSubmit = fields => {
+    const data = {
+      employee_id: id,
+      partitions: [
+        { start_date: fields.start_date1, end_date: fields.end_date1 },
+        { start_date: fields.start_date2, end_date: fields.end_date2 },
+        { start_date: fields.start_date3, end_date: fields.end_date3 }
+      ]
+    }
+    dispatch([createPartitionedVacation(data), reset(), handleClose()])
   }
-
-  const today = new Date()
-  const tomorrow = new Date(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
 
   return (
     <Col>
@@ -45,51 +36,86 @@ let FormPartitioned = (props) => {
         </Modal.Header>
         <Modal.Body className="show-grid">
           <Container>
-            <Row>
-              <Col lg={12}>
-                <Form onSubmit={e => {save(data); dispatch(reset('partitionedForm')); e.preventDefault(); handleClose();}}>
-                  <Card className="bg-dark mt-3">
-                    <Card.Body>
-                      <Form.Group>
-                          <Col lg={12}>
-                            <Field name="start_date1" autocomplete="off" placeholder="Start Date" minDate={tomorrow} dateFormat="yyyy-MM-dd" component={DatePicker} selected={start_date1} />
-                          </Col>
-                          <Col lg={12}>
-                          <Field name="end_date1" autocomplete="off" placeholder="End Date" minDate={tomorrow} dateFormat="yyyy-MM-dd" component={DatePicker} selected={end_date1} />
-                          </Col>
-                      </Form.Group>
-                    </Card.Body>
-                  </Card>
-                  <Card className="bg-dark mt-3">
-                    <Card.Body>
-                      <Form.Group>
-                          <Col lg={12}>
-                            <Field name="start_date2" autocomplete="off" placeholder="Start Date" minDate={tomorrow} dateFormat="yyyy-MM-dd" component={DatePicker} selected={start_date2} />
-                          </Col>
-                          <Col lg={12}>
-                          <Field name="end_date2" autocomplete="off" placeholder="End Date" minDate={tomorrow} dateFormat="yyyy-MM-dd" component={DatePicker} selected={end_date2} />
-                          </Col>
-                      </Form.Group>
-                    </Card.Body>
-                  </Card>
-                  <Card className="bg-dark mt-3">
-                    <Card.Body>
-                      <Form.Group>
-                          <Col lg={12}>
-                            <Field name="start_date3" autocomplete="off" placeholder="Start Date" minDate={tomorrow} dateFormat="yyyy-MM-dd" component={DatePicker} selected={start_date3} />
-                          </Col>
-                          <Col lg={12}>
-                          <Field name="end_date3" autocomplete="off" placeholder="End Date" minDate={tomorrow} dateFormat="yyyy-MM-dd" component={DatePicker} selected={end_date3} />
-                          </Col>
-                      </Form.Group>
-                    </Card.Body>
-                  </Card>
-                  <Col lg={6} md={12} sm={12} xs={12}>
-                    <button type="submit" disabled={pristine || submitting} className="mt-2 btn btn-success btn-block pull-right font-weight-bold btn-sm">Schedule!</button>
-                  </Col>
-                </Form>
-              </Col>
-            </Row>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <Row>
+                <Card>
+                  <Card.Body>
+                    <Form.Group>
+                      <Row>
+                        <Col>
+                          <Form.Group>
+                            <FloatingLabel label="start vacation">
+                              <Form.Control type="date" min={tomorrow} {...register('start_date1')} />
+                            </FloatingLabel>
+                          </Form.Group>
+                        </Col>
+                        <Col>
+                          <Form.Group>
+                            <FloatingLabel label="back to work">
+                              <Form.Control type="date" min={tomorrow} {...register('end_date1')} />
+                            </FloatingLabel>
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Form.Text className="text-muted">Period at least 14 days</Form.Text>
+                        </Col>
+                      </Row>
+                    </Form.Group>
+                  </Card.Body>
+                </Card>
+                <Card className="mt-2">
+                  <Card.Body>
+                    <Form.Group>
+                      <Row>
+                        <Col>
+                          <FloatingLabel label="start vacation">
+                            <Form.Control type="date" min={tomorrow} {...register('start_date2')} />
+                          </FloatingLabel>
+                        </Col>
+                        <Col>
+                          <FloatingLabel label="back to work">
+                            <Form.Control type="date" min={tomorrow} {...register('end_date2')} />
+                          </FloatingLabel>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Form.Text className="text-muted">Period at least 5 days</Form.Text>
+                        </Col>
+                      </Row>
+                    </Form.Group>
+                  </Card.Body>
+                </Card>
+                <Card className="mt-2">
+                  <Card.Body>
+                    <Form.Group>
+                      <Row>
+                        <Col>
+                          <FloatingLabel label="start vacation">
+                            <Form.Control type="date" min={tomorrow} {...register('start_date3')} />
+                          </FloatingLabel>
+                        </Col>
+                        <Col>
+                          <FloatingLabel label="back to work">
+                            <Form.Control type="date" min={tomorrow} {...register('end_date3')} />
+                          </FloatingLabel>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Form.Text className="text-muted">Period at least 5 days</Form.Text>
+                        </Col>
+                      </Row>
+                    </Form.Group>
+                  </Card.Body>
+                </Card>
+              </Row>
+              <Row>
+                <Button className="mt-3" variant='success' type='submit'>Schedule!</Button>
+              </Row>
+            </Form>
           </Container>
         </Modal.Body>
         <Modal.Footer>
@@ -99,6 +125,4 @@ let FormPartitioned = (props) => {
   )
 }
 
-FormPartitioned = reduxForm({ form: "partitionedForm", enableReinitialize: true})(FormPartitioned);
-FormPartitioned = connect(state => ({pristine: isPristine('partitionedForm')(state)}), null)(FormPartitioned)
 export default FormPartitioned;

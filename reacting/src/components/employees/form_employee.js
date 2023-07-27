@@ -1,24 +1,16 @@
-import { Modal, Card, Row, Col, Container, Form } from "react-bootstrap"
-import { reduxForm, Field, formValueSelector, reset, isPristine} from "redux-form";
-import { useDispatch, useSelector, connect } from "react-redux";
-
-const InputText = props => <Form.Control className="mb-2" autoComplete="on" {...props.input} {...props} />
+import { Modal, Card, Row, Col, Container, Form, FloatingLabel, Button } from "react-bootstrap"
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form"
+import { createEmployee } from "./actions"
 
 let FormEmployee = (props) => {
-  const {title, subtitle, show, pristine, save, submitting, handleClose} = props
   const dispatch = useDispatch()
-  const seletor = formValueSelector("employeeForm");
-  const name = useSelector(state => seletor(state, 'name'))
-  const position = useSelector(state => seletor(state, 'position'))
-
-  const data = {
-    name: name,
-    position: position
-  }
+  const {title, subtitle, show, handleClose} = props
+  const {register, handleSubmit, reset} = useForm()
 
   return (
     <Col>
-      <Modal size="md" centered show={show} onShow={() => dispatch(reset('employeeForm'))} onHide={handleClose}>
+      <Modal size="md" centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter"> 
             <blockquote className="blockquote mb-0">
@@ -29,27 +21,25 @@ let FormEmployee = (props) => {
         </Modal.Header>
         <Modal.Body className="show-grid">
           <Container>
-            <Row>
-              <Col lg={12}>
-                <Card className="bg-dark mt-3">
+            <Form onSubmit={handleSubmit(data => dispatch([createEmployee(data), reset(), handleClose()]))}>
+              <Row>
+                <Card>
                   <Card.Body>
-                    <Form onSubmit={e => {save(data); e.preventDefault(); handleClose();}}>
-                      <Form.Group>
-                        <Col lg={12}>
-                          <Field name="name" required component={InputText} placeholder="Name"/>
-                        </Col>
-                        <Col lg={12}>
-                          <Field name="position" required component={InputText} placeholder="Position"/>
-                        </Col>
-                        <Col lg={6} md={12} sm={12} xs={12}>
-                          <button type="submit" disabled={pristine || submitting} className="mt-2 btn btn-success btn-block pull-right font-weight-bold btn-sm">Hire!</button>
-                        </Col>
-                      </Form.Group>
-                    </Form>
+                    <Form.Group>
+                      <FloatingLabel label="Name">
+                        <Form.Control placeholder="Name" {...register('name')} />
+                      </FloatingLabel>
+                      <FloatingLabel label="Position">
+                        <Form.Control className="mt-4" placeholder="Position" {...register('position')} />
+                      </FloatingLabel>
+                    </Form.Group>
                   </Card.Body>
                 </Card>
-              </Col>
-            </Row>
+              </Row>
+              <Row>
+                <Button className="mt-3" variant="success" type="submit">Hire</Button>                
+              </Row>
+            </Form>
           </Container>
         </Modal.Body>
         <Modal.Footer>
@@ -58,6 +48,5 @@ let FormEmployee = (props) => {
     </Col>
   )
 }
-FormEmployee = reduxForm({ form: "employeeForm", enableReinitialize: true})(FormEmployee);
-FormEmployee = connect(state => ({pristine: isPristine('employeeForm')(state)}), null)(FormEmployee)
+
 export default FormEmployee;

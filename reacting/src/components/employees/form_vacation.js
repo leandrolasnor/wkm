@@ -1,29 +1,19 @@
-import { Modal, Card, Row, Col, Container, Form } from "react-bootstrap"
-import { reduxForm, Field, formValueSelector, reset, isPristine} from "redux-form";
-import { useDispatch, useSelector, connect } from "react-redux";
-import DatePicker from '../commons/date_picker/component'
+import { createVacation } from "./actions"
+import { Modal, Card, Row, Col, Container, Form, Button, FloatingLabel } from "react-bootstrap"
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form"
+import moment from "moment"
 
 let FormVacation = (props) => {
-  const {title, show, pristine, save, submitting, handleClose} = props
   const dispatch = useDispatch()
-  const seletor = formValueSelector("vacationForm");
-  const start_date = useSelector(state => seletor(state, 'start_date'))
-  const end_date = useSelector(state => seletor(state, 'end_date'))
+  const {title, show, handleClose} = props
   const { name, id } = props.show
-
-  const data = {
-    start_date: start_date,
-    end_date: end_date,
-    employee_id: id
-  }
-
-  const today = new Date()
-  const tomorrow = new Date(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
+  const {register, handleSubmit, reset} = useForm()
+  const tomorrow = moment().add(1, "days").format("YYYY-MM-DD")
 
   return (
     <Col>
-      <Modal size="md" centered show={show} onShow={() => dispatch(reset('vacationForm'))} onHide={handleClose}>
+      <Modal size="md" centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter"> 
             <blockquote className="blockquote mb-0">
@@ -34,27 +24,39 @@ let FormVacation = (props) => {
         </Modal.Header>
         <Modal.Body className="show-grid">
           <Container>
-            <Row>
-              <Col lg={12}>
-                <Card className="bg-dark mt-3">
+            <Form onSubmit={handleSubmit(data => dispatch([createVacation(data), reset(), handleClose()]))}>
+              <Form.Control value={id} type="hidden" {...register('employee_id')} />
+              <Row>
+                <Card>
                   <Card.Body>
                     <Form.Group>
-                      <Form onSubmit={e => {save(data); e.preventDefault(); handleClose();}}>
-                        <Col lg={12}>
-                          <Field name="start_date" autocomplete="off" placeholder="Start Date" minDate={tomorrow} dateFormat="yyyy-MM-dd" component={DatePicker} selected={start_date} />
+                      <Row>
+                        <Col>
+                          <Form.Group>
+                            <FloatingLabel label="start vacation">
+                              <Form.Control type="date" min={tomorrow} {...register('start_date')} />
+                            </FloatingLabel>
+                          </Form.Group>
                         </Col>
-                        <Col lg={12}>
-                        <Field name="end_date" autocomplete="off" placeholder="End Date" minDate={tomorrow} dateFormat="yyyy-MM-dd" component={DatePicker} selected={end_date} />
+                        <Col>
+                          <Form.Group>
+                            <FloatingLabel label="back to work">
+                              <Form.Control type="date" min={tomorrow} {...register('end_date')} />
+                            </FloatingLabel>
+                          </Form.Group>
                         </Col>
-                        <Col lg={6} md={12} sm={12} xs={12}>
-                          <button type="submit" disabled={pristine || submitting} className="mt-2 btn btn-success btn-block pull-right font-weight-bold btn-sm">Schedule!</button>
-                        </Col>
-                      </Form>
+                      </Row>
+                      <Row>
+                        <Form.Text className="text-muted">Period at least 10 days</Form.Text>
+                      </Row>
                     </Form.Group>
                   </Card.Body>
                 </Card>
-              </Col>
-            </Row>
+              </Row>
+              <Row>
+                <Button className='mt-3' variant="success" type="submit">Schedule</Button>
+              </Row>
+            </Form>
           </Container>
         </Modal.Body>
         <Modal.Footer>
@@ -64,6 +66,4 @@ let FormVacation = (props) => {
   )
 }
 
-FormVacation = reduxForm({ form: "vacationForm", enableReinitialize: true})(FormVacation);
-FormVacation = connect(state => ({pristine: isPristine('vacationForm')(state)}), null)(FormVacation)
 export default FormVacation;

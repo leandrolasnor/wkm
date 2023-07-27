@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from "react-redux";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { createEmployee } from './actions'
+import { Container, Row, Button } from "react-bootstrap";
 import FormEmployee from "./form_employee";
 import Grid from './grid'
 import styled from 'styled-components'
@@ -14,25 +12,17 @@ const OpaqueRow = styled(Row)`
 `
 
 const Employees = () => {
-  const dispatch = useDispatch()
   const [showEmployeeForm, setShowEmployeeForm] = useState(false);
 
   return(
     <OpaqueContainer className="pt-2 pb-2" lg={12} md={12} sm={12} xs={12}>
-      <Row><h1>Break::Break</h1></Row>
       <Row>
-        <Col className='pb-3'>
-          <Button variant="outline-success"onClick={() => setShowEmployeeForm(true)}>Hire!</Button>
-        </Col>
+        <Button variant="outline-success" onClick={() => setShowEmployeeForm(true)}>Hire!</Button>
       </Row>
-      <OpaqueRow><Grid /></OpaqueRow>
-      <FormEmployee
-        save={props => dispatch(createEmployee(props))}
-        title="New"
-        subtitle="Employee"
-        show={showEmployeeForm}
-        handleClose={() => setShowEmployeeForm(false)}
-      />
+      <OpaqueRow>
+        <Grid />
+      </OpaqueRow>
+      <FormEmployee title="New" subtitle="Employee" show={showEmployeeForm} handleClose={() => setShowEmployeeForm(false)} />
     </OpaqueContainer>
   )
 }
