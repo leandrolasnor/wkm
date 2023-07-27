@@ -14,13 +14,16 @@ class Scheduling::Vacation::Partitioned::Contract < Dry::Validation::Contract
   rule(:partitions) do
     key(:partitions).failure(:must_have_three_items) if values[:partitions].size != 3
 
-    partition_days_negative = values[:partitions].find do
-      (_1[:end_date].to_date - _1[:start_date].to_date).to_i.negative?
+    partition_days_invalid = values[:partitions].find do
+      key(:start_date).failure(:must_be_future) if _1[:start_date].to_date < Time.zone.now.to_date
+      key(:end_date).failure(:must_be_future) if _1[:end_date].to_date < Time.zone.now.to_date
+
+      !(_1[:end_date].to_date - _1[:start_date].to_date).to_i.positive?
     end
 
-    key(:start_date).failure(:before_end_date) if partition_days_negative
-    key(:end_date).failure(:after_start_date) if partition_days_negative
-  rescue ArgumentError
+    key(:start_date).failure(:before_end_date) if partition_days_invalid
+    key(:end_date).failure(:after_start_date) if partition_days_invalid
+  rescue StandardError
     key(:partitions).failure(:date_format_invalid)
   end
 end

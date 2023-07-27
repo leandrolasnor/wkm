@@ -15,7 +15,10 @@ class Scheduling::Vacation::Contract < Dry::Validation::Contract
       key(:start_date).failure(:before_end_date)
       key(:end_date).failure(:after_start_date)
     end
-  rescue ArgumentError
+
+    key(:start_date).failure(:must_be_future) if values[:start_date].to_date < Time.zone.now.to_date
+    key(:end_date).failure(:must_be_future) if values[:end_date].to_date < Time.zone.now.to_date
+  rescue StandardError
     key(:start_date).failure(:date_format_invalid)
     key(:end_date).failure(:date_format_invalid)
   end
