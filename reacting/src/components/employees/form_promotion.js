@@ -22,8 +22,7 @@ let FormPromotion = (props) => {
         </Modal.Header>
         <Modal.Body className="show-grid">
           <Container>
-            <Form onSubmit={handleSubmit(data => dispatch([promoteEmployee(data), reset(), handleClose()]))}>
-              <Form.Control value={id} type="hidden" {...register('id')} />
+            <Form onSubmit={handleSubmit(data => dispatch([promoteEmployee({...data, id: id}), reset(), handleClose()]))}>
               <Row>
                 <Card>
                   <Card.Body>

@@ -24,8 +24,7 @@ let FormVacation = (props) => {
         </Modal.Header>
         <Modal.Body className="show-grid">
           <Container>
-            <Form onSubmit={handleSubmit(data => dispatch([createVacation(data), reset(), handleClose()]))}>
-              <Form.Control value={id} type="hidden" {...register('employee_id')} />
+            <Form onSubmit={handleSubmit(data => dispatch([createVacation({...data, employee_id: id}), reset(), handleClose()]))}>
               <Row>
                 <Card>
                   <Card.Body>
