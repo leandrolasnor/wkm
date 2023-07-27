@@ -19,39 +19,27 @@ class Employing::Laws::Partitioned::Vacation::Macros < Dry::Validation::Contract
 
   register_macro(:overlap) do
     employee = Employee.find(values[:employee_id])
-    overlaped = values[:partitions].find do
-      overlapped_start_date = employee.vacations.exists?(
-        ['? between start_date and end_date', _1[:start_date]]
-      )
-
-      overlapped_end_date = employee.vacations.exists?(
-        ['? between start_date and end_date', _1[:end_date]]
-      )
-
-      overlapped_start_date || overlapped_end_date
+    overlapped = values[:partitions].find do
+      employee.vacations.where.not(
+        '? < start_date or end_date < ?',
+        _1[:end_date],
+        _1[:start_date]
+      ).limit(1).present?
     end
 
-    key(:overlap).failure(:overlap) if overlaped
+    key(:overlap).failure(:overlap) if overlapped
 
     first = values[:partitions].first
     second = values[:partitions].second
     third = values[:partitions].third
 
-    first_with_second_overlaped_start_date = first[:start_date] > second[:start_date] && first[:start_date] < second[:end_date]
-    first_with_second_overlaped_end_date = first[:end_date] < second[:end_date] && first[:end_date] > second[:start_date]
-    overlaped_first_second = first_with_second_overlaped_start_date || first_with_second_overlaped_end_date
+    overlaped_first_second = !(first[:end_date] <= second[:start_date] or second[:end_date] <= first[:start_date])
+    overlaped_first_third = !(first[:end_date] <= third[:start_date] or third[:end_date] <= first[:start_date])
+    overlaped_second_third = !(second[:end_date] <= third[:start_date] or third[:end_date] <= second[:start_date])
 
-    first_with_third_overlaped_start_date = first[:start_date] > third[:start_date] && first[:start_date] < third[:end_date]
-    first_with_third_overlaped_end_date = first[:end_date] < third[:end_date] && first[:end_date] > third[:start_date]
-    overlaped_first_third = first_with_third_overlaped_start_date || first_with_third_overlaped_end_date
+    overlapped = overlaped_first_second || overlaped_first_third || overlaped_second_third
 
-    second_with_third_overlaped_start_date = second[:start_date] > third[:start_date] && second[:start_date] < third[:end_date]
-    second_with_third_overlaped_end_date = second[:end_date] < third[:end_date] && second[:end_date] > third[:start_date]
-    overlaped_second_third = second_with_third_overlaped_start_date || second_with_third_overlaped_end_date
-
-    overlaped = overlaped_first_second || overlaped_first_third || overlaped_second_third
-
-    key(:overlap).failure(:overlap) if overlaped
+    key(:overlap).failure(:overlap) if overlapped
   rescue ActiveRecord::RecordNotFound
     key(:employee_id).failure(:valid_identifier)
   end

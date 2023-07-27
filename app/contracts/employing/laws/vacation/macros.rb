@@ -18,14 +18,12 @@ class Employing::Laws::Vacation::Macros < Dry::Validation::Contract
 
   register_macro(:overlap) do
     employee = Employee.find(values[:employee_id])
-    start_date = values[:start_date]
-    end_date = values[:end_date]
-    overlapped_start_date = employee.vacations.exists?(
-      ['? between start_date and end_date', start_date]
-    )
-    overlapped_end_date = employee.vacations.exists?(
-      ['? between start_date and end_date', end_date]
-    )
-    key(:overlap).failure(:overlap) if overlapped_start_date || overlapped_end_date
+    overlapped = employee.vacations.where.not(
+      '? <= start_date or end_date <= ?',
+      values[:end_date],
+      values[:start_date]
+    ).limit(1).present?
+
+    key(:overlap).failure(:overlap) if overlapped
   end
 end

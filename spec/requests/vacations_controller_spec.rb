@@ -206,7 +206,7 @@ RSpec.describe VacationsController do
             post(schedule_vacation_path, params: params, as: :json)
           end
 
-          it 'must be able to get a schedule item' do
+          it 'must be able to get a overlap error' do
             expect(response).to be_unprocessable
             expect(json_body).to eq(expected_json_body)
           end
