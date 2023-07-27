@@ -36,7 +36,7 @@ const Employee = (props) => {
         <Card.Subtitle className="mb-2 text-muted">
         {position} <Card.Link href="#" onClick={() => showPromotionForm(props.employee)}><FontAwesomeIcon icon={faUser} /></Card.Link>
         </Card.Subtitle>
-        <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Schedule!</Card.Link>
+        <Card.Link href="#" onClick={() => showVacationForm(props.employee)}>Schedule</Card.Link>
         <Card.Link href="#" onClick={() => showPartitionedForm(props.employee)}>Partitioned Schedule</Card.Link>
       </Card.Body>
       <Card.Body>
