@@ -13,27 +13,31 @@ import multi from "redux-multi";
 import thunk from "redux-thunk";
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-import styled from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
-const Body = styled.div`
-  height: 100%;
-  background:
-    linear-gradient(
-      limegreen,
-      transparent
-    ),
-    linear-gradient(
-      90deg,
-      skyblue,
-      transparent
-    ),
-    linear-gradient(
-      -90deg,
-      coral,
-      transparent
-    );
+const GlobalStyle = createGlobalStyle`
+  html { min-height: 100%; }
+  body {
+    height: 100%;
+    min-height: 100vh; margin: 0;
+    background:
+      linear-gradient(
+        limegreen,
+        transparent
+      ),
+      linear-gradient(
+        90deg,
+        skyblue,
+        transparent
+      ),
+      linear-gradient(
+        -90deg,
+        coral,
+        transparent
+      );
     
-  background-blend-mode: screen;
+    background-blend-mode: screen;
+  }
 `
 
 const devTools =
@@ -49,8 +53,9 @@ const store =
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <GlobalStyle />
     <Provider store={store}>
-      <Body><App /></Body>
+      <App />
       <ReduxToastr
         timeOut={6000}
         newestOnTop={true}
