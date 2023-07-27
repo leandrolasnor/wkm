@@ -118,6 +118,32 @@ RSpec.describe VacationsController do
       end
     end
 
+    context 'when the dates are past dates' do
+      let(:params) do
+        {
+          start_date: '2023-03-02',
+          end_date: '2023-04-02',
+          employee_id: employee.id
+        }
+      end
+
+      let(:expected_json_body) do
+        {
+          start_date: [I18n.t('dry_validation.errors.must_be_future')],
+          end_date: [I18n.t('dry_validation.errors.must_be_future')]
+        }
+      end
+
+      before do
+        post(schedule_vacation_path, params: params, as: :json)
+      end
+
+      it 'must be able to get a future error' do
+        expect(response).to be_unprocessable
+        expect(json_body).to match(expected_json_body)
+      end
+    end
+
     context 'when there is a prevent' do
       context 'on law' do
         context 'on availability and min_teen_days' do
@@ -155,16 +181,16 @@ RSpec.describe VacationsController do
           let(:vacation) do
             create(
               :vacation,
-              start_date: '2022-11-02',
-              end_date: '2022-11-22',
+              start_date: '2023-11-02',
+              end_date: '2023-11-22',
               employee_id: employee.id
             )
           end
 
           let(:params) do
             {
-              start_date: '2022-11-20',
-              end_date: '2022-11-30',
+              start_date: '2023-11-20',
+              end_date: '2023-11-30',
               employee_id: employee.id
             }
           end
@@ -194,12 +220,12 @@ RSpec.describe VacationsController do
       {
         partitions: [
           {
-            start_date: '2023-04-02',
-            end_date: '2023-04-16'
+            start_date: '2023-08-02',
+            end_date: '2023-08-16'
           },
           {
-            start_date: '2023-05-20',
-            end_date: '2023-05-25'
+            start_date: '2023-09-20',
+            end_date: '2023-09-25'
           },
           {
             start_date: '2023-12-26',
@@ -213,8 +239,8 @@ RSpec.describe VacationsController do
     context 'when a vacations was scheduled' do
       let(:expected_json_body) do
         [
-          { employee_id: be_a(Integer), start_date: '2023-04-02', end_date: '2023-04-16' },
-          { employee_id: be_a(Integer), start_date: '2023-05-20', end_date: '2023-05-25' },
+          { employee_id: be_a(Integer), start_date: '2023-08-02', end_date: '2023-08-16' },
+          { employee_id: be_a(Integer), start_date: '2023-09-20', end_date: '2023-09-25' },
           { employee_id: be_a(Integer), start_date: '2023-12-26', end_date: '2023-12-31' }
         ]
       end
@@ -257,6 +283,75 @@ RSpec.describe VacationsController do
         post(partitioned_schedule_vacation_path, params: params, as: :json)
       end
 
+      it 'must to get a partitions error for start date and end date fields' do
+        expect(response).to be_unprocessable
+        expect(json_body).to eq(expected_json_body)
+      end
+    end
+
+    context 'when there is partition missing with invalid date' do
+      let(:params) do
+        {
+          partitions: [
+            {
+              start_date: '2023-09-02',
+              end_date: '2023-09-31'
+            }
+          ],
+          employee_id: employee.id
+        }
+      end
+
+      let(:expected_json_body) do
+        {
+          partitions: [
+            I18n.t('dry_validation.errors.must_have_three_items'),
+            I18n.t('dry_validation.errors.date_format_invalid')
+          ]
+        }
+      end
+
+      before do
+        post(partitioned_schedule_vacation_path, params: params, as: :json)
+      end
+
+      it 'must to get a partitions error' do
+        expect(response).to be_unprocessable
+        expect(json_body).to eq(expected_json_body)
+      end
+    end
+
+    context 'when param is blank' do
+      let(:params) do
+        {
+          partitions: [
+            {
+              start_date: '2023-08-02',
+              end_date: ''
+            },
+            {
+              start_date: '2023-09-02',
+              end_date: ''
+            },
+            {
+              start_date: '2023-12-02',
+              end_date: ''
+            }
+          ],
+          employee_id: employee.id
+        }
+      end
+
+      let(:expected_json_body) do
+        {
+          partitions: [I18n.t('dry_validation.errors.date_format_invalid')]
+        }
+      end
+
+      before do
+        post(partitioned_schedule_vacation_path, params: params, as: :json)
+      end
+
       it 'must to happen something' do
         expect(response).to be_unprocessable
         expect(json_body).to eq(expected_json_body)
@@ -288,11 +383,11 @@ RSpec.describe VacationsController do
         {
           partitions: [
             {
-              start_date: '2023-04-02',
+              start_date: '2023-08-02',
               end_date: 'invalid date'
             },
             {
-              start_date: '2023-05-20',
+              start_date: '2023-09-20',
               end_date: '2023-05-24'
             },
             {
@@ -325,12 +420,12 @@ RSpec.describe VacationsController do
         {
           partitions: [
             {
-              start_date: '2023-04-02',
-              end_date: '2023-04-16'
+              start_date: '2023-08-02',
+              end_date: '2023-08-16'
             },
             {
-              start_date: '2023-05-24',
-              end_date: '2023-05-20'
+              start_date: '2023-09-24',
+              end_date: '2023-09-20'
             },
             {
               start_date: '2023-12-26',
@@ -365,12 +460,12 @@ RSpec.describe VacationsController do
             {
               partitions: [
                 {
-                  start_date: '2023-04-02',
-                  end_date: '2023-04-16'
+                  start_date: '2023-08-02',
+                  end_date: '2023-08-16'
                 },
                 {
-                  start_date: '2023-05-02',
-                  end_date: '2023-05-16'
+                  start_date: '2023-09-02',
+                  end_date: '2023-09-16'
                 },
                 {
                   start_date: '2024-01-02',
@@ -407,8 +502,8 @@ RSpec.describe VacationsController do
           let(:vacation) do
             create(
               :vacation,
-              start_date: '2023-05-23',
-              end_date: '2023-05-31',
+              start_date: '2023-09-23',
+              end_date: '2023-09-30',
               employee_id: employee.id
             )
           end
@@ -436,16 +531,16 @@ RSpec.describe VacationsController do
             {
               partitions: [
                 {
-                  start_date: '2023-04-02',
-                  end_date: '2023-04-16'
+                  start_date: '2023-08-02',
+                  end_date: '2023-08-16'
                 },
                 {
-                  start_date: '2023-05-20',
-                  end_date: '2023-05-25'
+                  start_date: '2023-09-20',
+                  end_date: '2023-09-25'
                 },
                 {
-                  start_date: '2023-05-22',
-                  end_date: '2023-05-27'
+                  start_date: '2023-09-22',
+                  end_date: '2023-09-27'
                 }
               ],
               employee_id: employee.id
@@ -473,12 +568,12 @@ RSpec.describe VacationsController do
             {
               partitions: [
                 {
-                  start_date: '2023-04-05',
-                  end_date: '2023-04-16'
+                  start_date: '2023-08-05',
+                  end_date: '2023-08-16'
                 },
                 {
-                  start_date: '2023-05-23',
-                  end_date: '2023-05-25'
+                  start_date: '2023-09-23',
+                  end_date: '2023-09-25'
                 },
                 {
                   start_date: '2023-12-28',
