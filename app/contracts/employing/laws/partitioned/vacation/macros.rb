@@ -21,7 +21,7 @@ class Employing::Laws::Partitioned::Vacation::Macros < Dry::Validation::Contract
     employee = Employee.find(values[:employee_id])
     overlapped = values[:partitions].find do
       employee.vacations.where.not(
-        '? < start_date or end_date < ?',
+        '? <= start_date or end_date <= ?',
         _1[:end_date],
         _1[:start_date]
       ).limit(1).present?
