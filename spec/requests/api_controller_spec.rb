@@ -18,7 +18,7 @@ RSpec.describe ApiController do
       get("/not_found")
     end
 
-    it 'must be able to get a oks message' do
+    it 'must be able to get a not found response status' do
       expect(response).to be_not_found
     end
   end

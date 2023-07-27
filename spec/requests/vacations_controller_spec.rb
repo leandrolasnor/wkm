@@ -60,7 +60,7 @@ RSpec.describe VacationsController do
         post(schedule_vacation_path, params: params, as: :json)
       end
 
-      it 'must be able to get a schedule item' do
+      it 'must be able to get a valid identifier message' do
         expect(response).to be_unprocessable
         expect(json_body).to match(expected_json_body)
       end
@@ -86,7 +86,7 @@ RSpec.describe VacationsController do
         post(schedule_vacation_path, params: params, as: :json)
       end
 
-      it 'must be able to get a schedule item' do
+      it 'must be able to get a date_format_invalid message' do
         expect(response).to be_unprocessable
         expect(json_body).to match(expected_json_body)
       end
@@ -112,7 +112,7 @@ RSpec.describe VacationsController do
         post(schedule_vacation_path, params: params, as: :json)
       end
 
-      it 'must be able to get a schedule item' do
+      it 'must be able to get a after_start_date and before_end_date message' do
         expect(response).to be_unprocessable
         expect(json_body).to match(expected_json_body)
       end
@@ -138,7 +138,7 @@ RSpec.describe VacationsController do
         post(schedule_vacation_path, params: params, as: :json)
       end
 
-      it 'must be able to get a future error' do
+      it 'must be able to get a future error message' do
         expect(response).to be_unprocessable
         expect(json_body).to match(expected_json_body)
       end
@@ -160,7 +160,7 @@ RSpec.describe VacationsController do
               availability: [I18n.t('dry_validation.errors.availability')],
               min_teen_days: [I18n.t('dry_validation.errors.min_teen_days')]
             }
-          end 
+          end
 
           before do
             Timecop.freeze('2022-10-01')
@@ -171,7 +171,7 @@ RSpec.describe VacationsController do
             Timecop.return
           end
 
-          it 'must be able to get a schedule item' do
+          it 'must be able to get a availability and min_teen_days error messages' do
             expect(response).to be_unprocessable
             expect(json_body).to eq(expected_json_body)
           end
@@ -206,7 +206,7 @@ RSpec.describe VacationsController do
             post(schedule_vacation_path, params: params, as: :json)
           end
 
-          it 'must be able to get a overlap error' do
+          it 'must be able to get a overlap error message' do
             expect(response).to be_unprocessable
             expect(json_body).to eq(expected_json_body)
           end
@@ -352,7 +352,7 @@ RSpec.describe VacationsController do
         post(partitioned_schedule_vacation_path, params: params, as: :json)
       end
 
-      it 'must to happen something' do
+      it 'must be able to get a date_format_invalid error message' do
         expect(response).to be_unprocessable
         expect(json_body).to eq(expected_json_body)
       end
@@ -372,7 +372,7 @@ RSpec.describe VacationsController do
         post(partitioned_schedule_vacation_path, params: params.merge(employee_id: 0), as: :json)
       end
 
-      it 'must not be able to schedule vacations' do
+      it 'must be able to get a valid_identifier error message' do
         expect(response).to be_unprocessable
         expect(json_body).to match(expected_json_body)
       end
@@ -409,7 +409,7 @@ RSpec.describe VacationsController do
         post(partitioned_schedule_vacation_path, params: params, as: :json)
       end
 
-      it 'must be able to get a schedule item' do
+      it 'must be able to get a date_format_invalid error message' do
         expect(response).to be_unprocessable
         expect(json_body).to match(expected_json_body)
       end
@@ -447,7 +447,7 @@ RSpec.describe VacationsController do
         post(partitioned_schedule_vacation_path, params: params, as: :json)
       end
 
-      it 'must be able to get a schedule item' do
+      it 'must be able to get a before_end_date and after_start_date error messages' do
         expect(response).to be_unprocessable
         expect(json_body).to match(expected_json_body)
       end
@@ -492,7 +492,7 @@ RSpec.describe VacationsController do
             Timecop.return
           end
 
-          it 'must be able to get a schedule item' do
+          it 'must be able to get a availability and period_greater_than_thrity error message' do
             expect(response).to be_unprocessable
             expect(json_body).to eq(expected_json_body)
           end
@@ -520,7 +520,7 @@ RSpec.describe VacationsController do
             post(partitioned_schedule_vacation_path, params: params, as: :json)
           end
 
-          it 'must be able to get a availability and overlap errors' do
+          it 'must be able to get a availability and overlap error messages' do
             expect(response).to be_unprocessable
             expect(json_body).to eq(expected_json_body)
           end
@@ -557,7 +557,7 @@ RSpec.describe VacationsController do
             post(partitioned_schedule_vacation_path, params: params, as: :json)
           end
 
-          it 'must be able to get a overlap error' do
+          it 'must be able to get a overlap error message' do
             expect(response).to be_unprocessable
             expect(json_body).to eq(expected_json_body)
           end

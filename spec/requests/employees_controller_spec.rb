@@ -46,7 +46,7 @@ RSpec.describe EmployeesController do
           post(hire_employee_path, params: { position: 7 }, as: :json)
         end
 
-        it "must be able to hire a employee" do
+        it "must be able to get validation errors" do
           expect(response).to have_http_status(:unprocessable_entity)
           expect(json_body).to eq(expected_json_body)
         end
@@ -125,7 +125,7 @@ RSpec.describe EmployeesController do
           delete(fire_employee_path, params: params, as: :json)
         end
 
-        it 'must be able to soft delete the employee' do
+        it 'must be able to fire the employee with soft delete' do
           expect(response).to be_successful
           expect(json_body).to match(expected_json_body)
           expect(paranoia_employee).not_to be_nil
@@ -172,7 +172,7 @@ RSpec.describe EmployeesController do
           delete(fire_employee_path, params: params, as: :json)
         end
 
-        it 'must not be able to soft delete the employee' do
+        it 'must not be able to get a not fireable message' do
           expect(response).to be_unprocessable
           expect(json_body).to eq(expected_json_body)
         end
@@ -209,7 +209,7 @@ RSpec.describe EmployeesController do
         get(list_employees_path, params: params, as: :json)
       end
 
-      it 'must be able to get five employees' do
+      it 'must be able to get others five employees' do
         expect(response).to be_successful
         expect(json_body).to be_a(Array)
         expect(json_body.size).to be(5)
