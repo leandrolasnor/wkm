@@ -6,7 +6,7 @@ class Calculating::Days::Employee
   param :employee
 
   option :hire_date, default: -> { employee.hire_date.to_date }
-  option :today, default: -> { Time.zone.now.to_date }
+  option :today, default: -> { Time.zone.today }
   option :worked_days, default: -> { (today - hire_date).to_i }
   option :worked_years, default: -> { worked_days.divmod(365).first }
   option :total_vacation, default: -> { worked_years * 30 }

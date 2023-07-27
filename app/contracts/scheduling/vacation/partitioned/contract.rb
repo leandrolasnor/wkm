@@ -15,8 +15,8 @@ class Scheduling::Vacation::Partitioned::Contract < Dry::Validation::Contract
     key(:partitions).failure(:must_have_three_items) if values[:partitions].size != 3
 
     partition_days_invalid = values[:partitions].find do
-      key(:start_date).failure(:must_be_future) if _1[:start_date].to_date < Time.zone.now.to_date
-      key(:end_date).failure(:must_be_future) if _1[:end_date].to_date < Time.zone.now.to_date
+      key(:start_date).failure(:must_be_future) if _1[:start_date].to_date <= Time.zone.today
+      key(:end_date).failure(:must_be_future) if _1[:end_date].to_date <= Time.zone.today
 
       !(_1[:end_date].to_date - _1[:start_date].to_date).to_i.positive?
     end

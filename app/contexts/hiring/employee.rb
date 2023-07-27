@@ -8,6 +8,6 @@ class Hiring::Employee
   option :model, default: -> { Employee }
 
   def hire
-    model.create(hire_date: Time.zone.now, **params)
+    model.create(hire_date: Time.zone.today, **params)
   end
 end

@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :employee do
     name { Faker::Name.first_name }
     position { Faker::Company.profession }
-    hire_date { Time.zone.now }
+    hire_date { Time.zone.today }
 
     trait :analyst do
       position { 'Analyst' }
