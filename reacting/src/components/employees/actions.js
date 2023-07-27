@@ -2,6 +2,8 @@ import { toastr } from "react-redux-toastr";
 import axios from 'axios'
 import handle_errors from './handle_errors'
 
+var _ = require('lodash')
+
 export const getEmployees = page => {
   return dispatch => {
     if(!page) return;
@@ -18,6 +20,7 @@ export const createEmployee = employee => {
     axios.post('http://localhost:3000/employee/hire', { employee })
     .then( resp => {
       dispatch({type: 'CREATED_EMPLOYEE', payload: { employee: resp.data }})
+      toastr.success('New Employee', _.get(resp.data, 'name', 'Created!'))
     })
     .catch( e => handle_errors(e))
   }
@@ -36,15 +39,15 @@ export const promoteEmployee = employee => {
     axios.patch('http://localhost:3000/employee/promotion', employee).then( resp => {
       let {name, position} = resp.data
       dispatch({type: 'PROMOTED_EMPLOYEE', payload: {employee: resp.data}})
-      toastr.info(name + ' has been promoted to', position)
+      toastr.success(name + ' has been promoted to', position)
     }).catch( e => handle_errors(e))
   }
 }
 
-export const partitionedSchedule = partitioned => {
+export const createPartitionedVacation = partitioned => {
   return dispatch => {
     axios.post('http://localhost:3000/vacation/partitioned_schedule', { ...partitioned }).then( resp => {
-      toastr.warning('Partitioned Vacation', 'Created!')
+      toastr.success('Partitioned Vacation', 'Created!')
     }).catch( e => handle_errors(e))
   }
 }
