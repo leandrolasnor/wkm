@@ -20,7 +20,7 @@ class EmployeesController < ApiController
   private
 
   def params_employee
-    params.fetch(:employee)
+    params.fetch(:employee, {})
   end
 
   def list_params
@@ -36,6 +36,6 @@ class EmployeesController < ApiController
   end
 
   def fire_params
-    params.permit(:employee_id)
+    params_employee.permit(:id)
   end
 end

@@ -54,7 +54,7 @@ export const createPartitionedVacation = partitioned => {
 
 export const fireEmployee = id => {
   return dispatch => {
-    axios.delete('http://localhost:3000/employee/fire', { data: {employee_id: id } } )
+    axios.delete('http://localhost:3000/employee/fire', { data: {id: id } } )
     .then( resp => {
       dispatch({type: 'EMPLOYEE_FIRED', payload: { employee: resp.data }})
     })
