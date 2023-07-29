@@ -12,7 +12,7 @@ export const Card = styled(B.Card)`
 export const Badge = styled(B.Badge)`
   background-color: #fffbec;
   width: 60px;
-  height: 25px;
+  height: 20px;
   padding-bottom: 5px;
   border-radius: 10px;
   display: flex;

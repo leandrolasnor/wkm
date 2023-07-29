@@ -23,8 +23,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .options {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     border-radius: 25px;
     display: flex;
     align-items: center;
@@ -48,7 +48,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .progress {
-    height: 10px;
+    height: 5px;
     border-radius: 10px
   }
 
