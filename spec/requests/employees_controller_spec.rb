@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe EmployeesController do
   before do
     Timecop.freeze('2023-07-01 09:00:00')
+    Bullet.enable = false
   end
 
   after do
@@ -20,7 +21,11 @@ RSpec.describe EmployeesController do
             id: be_a(Integer),
             name: 'Valdez',
             position: 'Analyst',
-            hire_date: '2023-07-01'
+            hire_date: '2023-07-01',
+            enjoyed: 0,
+            vacation_days_available: 0,
+            working_for: '0 days',
+            working: true
           }
         end
 
@@ -71,7 +76,11 @@ RSpec.describe EmployeesController do
             id: be_a(Integer),
             name: 'Eduardo',
             position: 'Chair Man',
-            hire_date: '2023-07-01'
+            hire_date: '2023-07-01',
+            vacation_days_available: 0,
+            enjoyed: 0,
+            working_for: '0 days',
+            working: true
           }
         end
 
@@ -109,7 +118,7 @@ RSpec.describe EmployeesController do
   describe "DELETE /fire" do
     context 'when fire a employee' do
       context 'on success' do
-        let(:params) { { employee_id: employee.id } }
+        let(:params) { { employee: { id: employee.id } } }
         let(:paranoia_employee) { Employee.only_deleted.find(employee.id) }
         let(:employee) { create(:employee, :analyst, name: 'Arthur') }
         let(:expected_json_body) do
@@ -117,7 +126,11 @@ RSpec.describe EmployeesController do
             id: be_a(Integer),
             name: 'Arthur',
             position: 'Analyst',
-            hire_date: '2023-07-01'
+            hire_date: '2023-07-01',
+            vacation_days_available: 0,
+            working_for: '0 days',
+            enjoyed: 0,
+            working: true
           }
         end
 
@@ -133,7 +146,7 @@ RSpec.describe EmployeesController do
       end
 
       context 'on not_found' do
-        let(:params) { { employee_id: 0, position: 'Chair Man' } }
+        let(:params) { { employee: { id: 0 } } }
         let(:expected_json_body) do
           {
             employee: [I18n.t('dry_validation.errors.valid_identifier')]
@@ -151,7 +164,7 @@ RSpec.describe EmployeesController do
       end
 
       context 'when employee is enjoying your vacation' do
-        let(:params) { { employee_id: employee.id } }
+        let(:params) { { id: employee.id } }
         let(:employee) do
           e = create(:employee)
           create(
@@ -182,6 +195,18 @@ RSpec.describe EmployeesController do
 
   describe 'GET /list' do
     let(:employees) { create_list(:employee, 15) }
+    let(:keys) do
+      [
+        :id,
+        :name,
+        :position,
+        :enjoyed,
+        :vacation_days_available,
+        :working_for,
+        :hire_date,
+        :working
+      ]
+    end
 
     before do
       employees
@@ -198,7 +223,7 @@ RSpec.describe EmployeesController do
         expect(response).to be_successful
         expect(json_body).to be_a(Array)
         expect(json_body.size).to be(10)
-        expect(json_body.first).to include(:name, :position, :hire_date)
+        expect(json_body.first.keys).to match_array(keys)
       end
     end
 
@@ -213,7 +238,7 @@ RSpec.describe EmployeesController do
         expect(response).to be_successful
         expect(json_body).to be_a(Array)
         expect(json_body.size).to be(5)
-        expect(json_body.first).to include(:name, :position, :hire_date)
+        expect(json_body.first.keys).to match_array(keys)
       end
     end
   end

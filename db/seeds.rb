@@ -16,4 +16,4 @@ FactoryBot.create(
   end_date: 20.days.from_now
 )
 
-Employee.second.update(hire_date: 2.years.ago)
+Employee.second.update(hire_date: 677.days.ago)

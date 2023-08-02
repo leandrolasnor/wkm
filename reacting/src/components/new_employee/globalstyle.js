@@ -8,7 +8,10 @@ const GlobalStyle = createGlobalStyle`
 
   .c-details span {
     font-weight: 300;
-    font-size: 13px
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .icon {
@@ -59,6 +62,10 @@ const GlobalStyle = createGlobalStyle`
 
   .text2 {
     color: #a5aec0
+  }
+
+  .dropdown-toggle::after {
+    display: none !important; 
   }
 `
 

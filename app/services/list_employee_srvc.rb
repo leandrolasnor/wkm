@@ -3,7 +3,7 @@
 class ListEmployeeSrvc < ApplicationService
   param :params
 
-  option :serializer, default: -> { ListEmployeeSerializer }
+  option :serializer, default: -> { EmployeeSerializer }
   option :repository, default: -> { Listing::Employees.new(params) }
   Contract = Listing::Employee::Contract.new
 
