@@ -9,6 +9,7 @@
   FactoryBot.create(:employee)
 end
 
+Employee.first.update(hire_date: 1.year.ago.to_date)
 FactoryBot.create(
   :vacation,
   employee: Employee.first,
