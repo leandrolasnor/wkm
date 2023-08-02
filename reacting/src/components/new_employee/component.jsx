@@ -78,9 +78,6 @@ const Employee = props => {
                   onClick={() => showPartitionedForm(props.employee)}
                 >Partitioned Vacation</B.NavDropdown.Item>
               </B.NavDropdown>
-              {/* <div className="options">
-                <FontAwesomeIcon size="2xs" icon={faEllipsis} />
-              </div> */}
             </B.Stack>
           </B.Card>
       </B.Col>
