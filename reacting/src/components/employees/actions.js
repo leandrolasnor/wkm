@@ -7,7 +7,7 @@ var _ = require('lodash')
 export const getEmployees = page => {
   return dispatch => {
     if(!page) return;
-    axios.get('http://localhost:3000/employees/list', { params: { page: page, per_page: 12 } })
+    axios.get('/employees/list', { params: { page: page, per_page: 12 } })
     .then( resp => {
       dispatch({type: 'FETCH_EMPLOYEES', payload: { employees: resp.data }})
     })
@@ -17,7 +17,7 @@ export const getEmployees = page => {
 
 export const createEmployee = employee => {
   return dispatch => {
-    axios.post('http://localhost:3000/employee/hire', { employee })
+    axios.post('/employee/hire', { employee })
     .then( resp => {
       dispatch({type: 'CREATED_EMPLOYEE', payload: { employee: resp.data }})
       toastr.success('New Employee', _.get(resp.data, 'name', 'Created!'))
@@ -28,7 +28,7 @@ export const createEmployee = employee => {
 
 export const createVacation = vacation => {
   return dispatch => {
-    axios.post('http://localhost:3000/vacation/schedule', { vacation }).then( resp => {
+    axios.post('/vacation/schedule', { vacation }).then( resp => {
       toastr.success('Vacation', 'Created')
     }).catch( e => handle_errors(e))
   }
@@ -36,7 +36,7 @@ export const createVacation = vacation => {
 
 export const promoteEmployee = employee => {
   return dispatch => {
-    axios.patch('http://localhost:3000/employee/promotion', employee).then( resp => {
+    axios.patch('/employee/promotion', employee).then( resp => {
       let {name, position} = resp.data
       dispatch({type: 'PROMOTED_EMPLOYEE', payload: {employee: resp.data}})
       toastr.success(name + ' has been promoted to', position)
@@ -46,7 +46,7 @@ export const promoteEmployee = employee => {
 
 export const createPartitionedVacation = partitioned => {
   return dispatch => {
-    axios.post('http://localhost:3000/vacation/partitioned_schedule', { ...partitioned }).then( resp => {
+    axios.post('/vacation/partitioned_schedule', { ...partitioned }).then( resp => {
       toastr.success('Partitioned Vacation', 'Created!')
     }).catch( e => handle_errors(e))
   }
@@ -54,7 +54,7 @@ export const createPartitionedVacation = partitioned => {
 
 export const fireEmployee = id => {
   return dispatch => {
-    axios.delete('http://localhost:3000/employee/fire', { data: {employee_id: id } } )
+    axios.delete('/employee/fire', { data: {employee_id: id } } )
     .then( resp => {
       dispatch({type: 'EMPLOYEE_FIRED', payload: { employee: resp.data }})
     })

@@ -14,6 +14,7 @@ import thunk from "redux-thunk";
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createGlobalStyle } from 'styled-components'
+import axios from 'axios';
 
 const GlobalStyle = createGlobalStyle`
   html { min-height: 100%; }
@@ -39,6 +40,8 @@ const GlobalStyle = createGlobalStyle`
     background-blend-mode: screen;
   }
 `
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 const devTools =
   process.env.NODE_ENV === "development"
