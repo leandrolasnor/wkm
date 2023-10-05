@@ -1,14 +1,27 @@
 FROM ruby:3.2.2-alpine3.18
 RUN apk update && apk add \
-    build-base libxslt-dev libxml2-dev tzdata git sqlite sqlite-dev zsh wget \
-    shared-mime-info vim curl font-meslo-nerd shadow zsh-vcs yarn
+    build-base tzdata git sqlite sqlite-dev zsh wget \
+    nano curl font-meslo-nerd shadow zsh-vcs yarn
 
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-RUN git clone https://github.com/leandrolasnor/wkm.git .
-RUN bundle
-RUN cd reacting && yarn
 
+RUN git init
+RUN git remote add origin https://github.com/leandrolasnor/wkm
+RUN git pull origin master
+RUN git checkout master -f
+RUN git branch --set-upstream-to origin/master
+
+RUN gem install bundler --version '2.4.19'
+RUN bundle
+RUN yarn --cwd ./reacting install
+
+COPY entrypoint.sh /usr/bin/
+RUN dos2unix /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
+RUN rm -rf /root/.oh-my-zsh
 RUN sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 RUN usermod --shell /bin/zsh root
 RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions

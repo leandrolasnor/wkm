@@ -1,0 +1,22 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  backend:
+    image: leandrolasnor/ruby:wkm
+    container_name: wkm.rails
+    stdin_open: true
+    tty: true
+    command: sh
+    ports:
+      - "3000:3000"
+  
+  frontend:
+    image: leandrolasnor/ruby:wkm
+    container_name: wkm.react
+    stdin_open: true
+    tty: true
+    command: sh -c "yarn --cwd ./reacting start"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend

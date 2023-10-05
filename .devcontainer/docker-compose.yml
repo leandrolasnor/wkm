@@ -1,9 +1,0 @@
-services:
-  api:
-    build: .
-    image:  ruby:3.2.2-alpine3.18
-    container_name: dev-wkm-api
-    stdin_open: true
-    tty: true
-    ports:
-      - "3000:3000"
