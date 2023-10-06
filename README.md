@@ -52,7 +52,7 @@ services:
 
 _presumo que nesse momento seu ambiente esteja devidamente configurado e o banco de dados criado e populado_
 
-* Use o comando `docker compose exec backend rails s` para subir o _rails_
+* Use o comando `docker compose exec backend sh -c "rails s"` para subir o _rails_
 * Em outro terminal rode o comando `docker compose up frontend -d` para criar e executar o container _wkm.react_
 * Acesse [127.0.0.1:3001](http://127.0.0.1:3001)
 * Uma lista de colaboradores será exibida na página inicial.
